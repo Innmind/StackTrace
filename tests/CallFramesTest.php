@@ -15,21 +15,28 @@ class CallFramesTest extends TestCase
     public function testOf()
     {
         try {
-            self::staticCall();
+            $refl = new \ReflectionMethod(self::class, 'refl');
+            $refl->invoke($this);
         } catch (\TypeError $e) {
             $frames = CallFrames::of($e);
         }
 
         $this->assertInstanceOf(StreamInterface::class, $frames);
         $this->assertSame(CallFrame::class, (string) $frames->type());
-        $this->assertCount(16, $frames);
-        $frames = $frames->take(6); // up to the caller of this test
+        $this->assertCount(18, $frames);
         $this->assertInstanceOf(CallFrame\MethodCall::class, $frames[0]);
         $this->assertInstanceOf(CallFrame\FunctionCall::class, $frames[1]);
         $this->assertInstanceOf(CallFrame\InternalFunctionCall::class, $frames[2]);
         $this->assertInstanceOf(CallFrame\FunctionCall::class, $frames[3]);
         $this->assertInstanceOf(CallFrame\StaticMethodCall::class, $frames[4]);
-        $this->assertInstanceOf(CallFrame\InternalMethodCall::class, $frames[5]);
+        $this->assertInstanceOf(CallFrame\InternalStaticMethodCall::class, $frames[5]);
+        $this->assertInstanceOf(CallFrame\MethodCall::class, $frames[6]);
+        $this->assertInstanceOf(CallFrame\InternalMethodCall::class, $frames[7]);
+    }
+
+    public static function refl()
+    {
+        self::staticCall();
     }
 
     public static function staticCall()

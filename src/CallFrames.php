@@ -106,8 +106,6 @@ final class CallFrames
         return new CallFrame\InternalStaticMethodCall(
             new CallFrame\ClassName($frame['class']),
             new CallFrame\Method($frame['function']),
-            Url::fromString('file://'.$frame['file']),
-            new CallFrame\Line($frame['line']),
             ...$frame['args']
         );
     }
