@@ -14,6 +14,7 @@ final class Throwable
     private $code;
     private $message;
     private $trace;
+    private $frames;
 
     public function __construct(\Throwable $e)
     {
@@ -21,6 +22,7 @@ final class Throwable
         $this->code = $e->getCode();
         $this->message = Str::of($e->getMessage());
         $this->trace = Str::of($e->getTraceAsString())->split("\n");
+        $this->frames = CallFrames::of($e);
     }
 
     public function class(): Str
@@ -44,5 +46,13 @@ final class Throwable
     public function trace(): StreamInterface
     {
         return $this->trace;
+    }
+
+    /**
+     * @return StreamInterface<CallFrame>
+     */
+    public function callFrames(): StreamInterface
+    {
+        return $this->frames;
     }
 }
