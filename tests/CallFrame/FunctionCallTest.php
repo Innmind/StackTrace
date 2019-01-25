@@ -5,10 +5,10 @@ namespace Tests\Innmind\StackTrace\CallFrame;
 
 use Innmind\StackTrace\{
     CallFrame\FunctionCall,
-    CallFrame\FunctionName,
-    CallFrame\Line,
     CallFrame\UserLand,
     CallFrame,
+    FunctionName,
+    Line,
 };
 use Innmind\Url\UrlInterface;
 use Innmind\Immutable\SequenceInterface;

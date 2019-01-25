@@ -1,10 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\StackTrace\CallFrame;
+namespace Tests\Innmind\StackTrace;
 
 use Innmind\StackTrace\{
-    CallFrame\Method,
+    Method,
     Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;

@@ -1,10 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\StackTrace\CallFrame;
+namespace Tests\Innmind\StackTrace;
 
 use Innmind\StackTrace\{
-    CallFrame\FunctionName,
+    ClassName,
     Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
@@ -13,7 +13,7 @@ use Eris\{
     TestTrait,
 };
 
-class FunctionNameTest extends TestCase
+class ClassNameTest extends TestCase
 {
     use TestTrait;
 
@@ -25,7 +25,7 @@ class FunctionNameTest extends TestCase
                 return $string !== '';
             })
             ->then(function(string $string): void {
-                $this->assertSame($string, (string) new FunctionName($string));
+                $this->assertSame($string, (string) new ClassName($string));
             });
     }
 
@@ -33,6 +33,6 @@ class FunctionNameTest extends TestCase
     {
         $this->expectException(DomainException::class);
 
-        new FunctionName('');
+        new ClassName('');
     }
 }

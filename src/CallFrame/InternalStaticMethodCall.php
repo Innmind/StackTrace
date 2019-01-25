@@ -3,7 +3,11 @@ declare(strict_types = 1);
 
 namespace Innmind\StackTrace\CallFrame;
 
-use Innmind\StackTrace\CallFrame;
+use Innmind\StackTrace\{
+    CallFrame,
+    ClassName,
+    Method,
+};
 use Innmind\Immutable\{
     SequenceInterface,
     Sequence,

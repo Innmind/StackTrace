@@ -5,8 +5,8 @@ namespace Tests\Innmind\StackTrace\CallFrame;
 
 use Innmind\StackTrace\{
     CallFrame\InternalFunctionCall,
-    CallFrame\FunctionName,
     CallFrame,
+    FunctionName,
 };
 use Innmind\Immutable\SequenceInterface;
 use PHPUnit\Framework\TestCase;

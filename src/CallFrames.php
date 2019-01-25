@@ -45,10 +45,10 @@ final class CallFrames
         }
 
         return new CallFrame\MethodCall(
-            new CallFrame\ClassName($frame['class']),
-            new CallFrame\Method($frame['function']),
+            new ClassName($frame['class']),
+            new Method($frame['function']),
             Url::fromString('file://'.$frame['file']),
-            new CallFrame\Line($frame['line']),
+            new Line($frame['line']),
             ...$frame['args']
         );
     }
@@ -68,10 +68,10 @@ final class CallFrames
         }
 
         return new CallFrame\StaticMethodCall(
-            new CallFrame\ClassName($frame['class']),
-            new CallFrame\Method($frame['function']),
+            new ClassName($frame['class']),
+            new Method($frame['function']),
             Url::fromString('file://'.$frame['file']),
-            new CallFrame\Line($frame['line']),
+            new Line($frame['line']),
             ...$frame['args']
         );
     }
@@ -87,8 +87,8 @@ final class CallFrames
         }
 
         return new CallFrame\InternalMethodCall(
-            new CallFrame\ClassName($frame['class']),
-            new CallFrame\Method($frame['function']),
+            new ClassName($frame['class']),
+            new Method($frame['function']),
             ...$frame['args']
         );
     }
@@ -104,8 +104,8 @@ final class CallFrames
         }
 
         return new CallFrame\InternalStaticMethodCall(
-            new CallFrame\ClassName($frame['class']),
-            new CallFrame\Method($frame['function']),
+            new ClassName($frame['class']),
+            new Method($frame['function']),
             ...$frame['args']
         );
     }
@@ -117,9 +117,9 @@ final class CallFrames
         }
 
         return new CallFrame\FunctionCall(
-            new CallFrame\FunctionName($frame['function']),
+            new FunctionName($frame['function']),
             Url::fromString('file://'.$frame['file']),
-            new CallFrame\Line($frame['line']),
+            new Line($frame['line']),
             ...$frame['args']
         );
     }
@@ -127,7 +127,7 @@ final class CallFrames
     private static function internalFunctionCall(array $frame): CallFrame
     {
         return new CallFrame\InternalFunctionCall(
-            new CallFrame\FunctionName($frame['function']),
+            new FunctionName($frame['function']),
             ...$frame['args']
         );
     }

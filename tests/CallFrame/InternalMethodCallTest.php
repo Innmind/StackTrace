@@ -5,9 +5,9 @@ namespace Tests\Innmind\StackTrace\CallFrame;
 
 use Innmind\StackTrace\{
     CallFrame\InternalMethodCall,
-    CallFrame\ClassName,
-    CallFrame\Method,
     CallFrame,
+    ClassName,
+    Method,
 };
 use Innmind\Immutable\SequenceInterface;
 use PHPUnit\Framework\TestCase;

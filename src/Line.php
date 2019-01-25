@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\StackTrace\CallFrame;
+namespace Innmind\StackTrace;
 
 use Innmind\StackTrace\Exception\DomainException;
 

@@ -5,11 +5,11 @@ namespace Tests\Innmind\StackTrace\CallFrame;
 
 use Innmind\StackTrace\{
     CallFrame\StaticMethodCall,
-    CallFrame\ClassName,
-    CallFrame\Method,
-    CallFrame\Line,
     CallFrame\UserLand,
     CallFrame,
+    ClassName,
+    Method,
+    Line,
 };
 use Innmind\Url\UrlInterface;
 use Innmind\Immutable\SequenceInterface;
