@@ -23,6 +23,12 @@ final class Render
     private $nodes;
     private $throwables;
     private $callFrames;
+    private $link;
+
+    public function __construct(Link $link = null)
+    {
+        $this->link = $link ?? new Link\ToFile;
+    }
 
     public function __invoke(StackTrace $stack): Readable
     {
@@ -76,7 +82,7 @@ final class Render
                 $e->message()
             ))
             ->shaped(Shape::doubleoctagon()->fillWithColor(Colour::fromString('red')))
-            ->target($e->file(), $e->line());
+            ->target(($this->link)($e->file(), $e->line()));
 
         $this->add(
             $this->hashThrowable($e),
@@ -100,7 +106,7 @@ final class Render
             ->shaped(Shape::box()->fillWithColor(Colour::fromString('orange')));
 
         if ($frame instanceof CallFrame\UserLand) {
-            $node->target($this->link($frame->file(), $frame->line()));
+            $node->target(($this->link)($frame->file(), $frame->line()));
         }
 
         $this->add($hash, $node);
@@ -152,7 +158,7 @@ final class Render
                 $this->nodes->get($this->hashFrame($source))
             )
             ->displayAs("{$e->file()->path()}:{$e->line()}")
-            ->target($e->file(), $e->line());
+            ->target(($this->link)($e->file(), $e->line()));
 
         $e
             ->callFrames()
@@ -174,7 +180,7 @@ final class Render
                     if ($parent instanceof CallFrame\UserLand) {
                         $edge
                             ->displayAs("{$parent->file()->path()}:{$parent->line()}")
-                            ->target($this->link($parent->file(), $parent->line()));
+                            ->target(($this->link)($parent->file(), $parent->line()));
                     }
 
                     return $parent;
@@ -211,10 +217,5 @@ final class Render
         }
 
         return "$prefix$frame|{$frame->arguments()->count()}";
-    }
-
-    private function link(UrlInterface $file, Line $line): UrlInterface
-    {
-        return $file;
     }
 }
