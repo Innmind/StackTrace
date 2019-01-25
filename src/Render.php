@@ -53,6 +53,8 @@ final class Render
             return (new Dot)($graph);
         } finally {
             $this->nodes = null;
+            $this->throwables = null;
+            $this->callFrames = null;
         }
     }
 
