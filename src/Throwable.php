@@ -18,14 +18,14 @@ final class Throwable
 
     public function __construct(\Throwable $e)
     {
-        $this->class = Str::of(\get_class($e));
+        $this->class = new ClassName(\get_class($e));
         $this->code = $e->getCode();
         $this->message = Str::of($e->getMessage());
         $this->trace = Str::of($e->getTraceAsString())->split("\n");
         $this->frames = CallFrames::of($e);
     }
 
-    public function class(): Str
+    public function class(): ClassName
     {
         return $this->class;
     }

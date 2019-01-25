@@ -6,6 +6,7 @@ namespace Tests\Innmind\StackTrace;
 use Innmind\StackTrace\{
     Throwable,
     CallFrame,
+    ClassName,
 };
 use Innmind\Immutable\{
     StreamInterface,
@@ -19,7 +20,7 @@ class ThrowableTest extends TestCase
     {
         $throwable = new Throwable($e = new \Exception('foo', 42));
 
-        $this->assertInstanceOf(Str::class, $throwable->class());
+        $this->assertInstanceOf(ClassName::class, $throwable->class());
         $this->assertSame(\Exception::class, (string) $throwable->class());
         $this->assertInstanceOf(Str::class, $throwable->message());
         $this->assertSame('foo', (string) $throwable->message());
