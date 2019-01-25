@@ -17,6 +17,8 @@ final class Throwable
     private $class;
     private $code;
     private $message;
+    private $file;
+    private $line;
     private $trace;
     private $frames;
 
