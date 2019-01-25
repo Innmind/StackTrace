@@ -68,7 +68,8 @@ final class Render
                 $e->code(),
                 $e->message()
             ))
-            ->shaped(Shape::doubleoctagon()->fillWithColor(Colour::fromString('red')));
+            ->shaped(Shape::doubleoctagon()->fillWithColor(Colour::fromString('red')))
+            ->target($e->file(), $e->line());
 
         $this->add(
             $this->hashThrowable($e),
@@ -91,7 +92,7 @@ final class Render
             ->shaped(Shape::box()->fillWithColor(Colour::fromString('orange')));
 
         if ($frame instanceof CallFrame\UserLand) {
-            $node->target($this->link($frame));
+            $node->target($this->link($frame->file(), $frame->line()));
         }
 
         $this->add($hash, $node);
@@ -164,7 +165,7 @@ final class Render
                     if ($parent instanceof CallFrame\UserLand) {
                         $edge
                             ->displayAs("{$parent->file()->path()}:{$parent->line()}")
-                            ->target($this->link($parent));
+                            ->target($this->link($parent->file(), $parent->line()));
                     }
 
                     return $parent;
@@ -203,8 +204,8 @@ final class Render
         return "$prefix$frame|{$frame->arguments()->count()}";
     }
 
-    private function link(CallFrame $frame): UrlInterface
+    private function link(UrlInterface $file, Line $line): UrlInterface
     {
-        return $frame->file();
+        return $file;
     }
 }
