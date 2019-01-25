@@ -142,8 +142,8 @@ final class Render
             ->linkedTo(
                 $this->nodes->get($this->hashFrame($source))
             )
-            ->displayAs('Thrown in');
-
+            ->displayAs("{$e->file()->path()}:{$e->line()}")
+            ->target($e->file(), $e->line());
 
         $e
             ->callFrames()
