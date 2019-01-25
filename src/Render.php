@@ -21,11 +21,15 @@ use Innmind\Immutable\{
 final class Render
 {
     private $nodes;
+    private $throwables;
+    private $callFrames;
 
     public function __invoke(StackTrace $stack): Readable
     {
         try {
             $this->nodes = Map::of('string', Node::class);
+            $this->throwables = Graph\Graph::directed('throwables')->displayAs('Thrown');
+            $this->callFrames = Graph\Graph::directed('call_frames')->displayAs('Stack Trace');
 
             $this->renderNodes($stack);
             $this->renderLinks($stack);
@@ -36,6 +40,9 @@ final class Render
                     return $graph->add($node);
                 }
             );
+            $graph
+                ->cluster($this->throwables)
+                ->cluster($this->callFrames);
 
             return (new Dot)($graph);
         } finally {
@@ -75,6 +82,7 @@ final class Render
             $this->hashThrowable($e),
             $node
         );
+        $this->throwables->add(new Node\Node($node->name()));
     }
 
     private function renderCallFrame(CallFrame $frame): void
@@ -96,6 +104,7 @@ final class Render
         }
 
         $this->add($hash, $node);
+        $this->callFrames->add(new Node\Node($node->name()));
     }
 
     private function renderLinks(StackTrace $stack): void
