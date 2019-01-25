@@ -3,14 +3,13 @@ declare(strict_types = 1);
 
 namespace Innmind\StackTrace\CallFrame;
 
-use Innmind\StackTrace\CallFrame;
 use Innmind\Url\UrlInterface;
 use Innmind\Immutable\{
     SequenceInterface,
     Sequence,
 };
 
-final class StaticMethodCall implements CallFrame
+final class StaticMethodCall implements UserLand
 {
     private $class;
     private $method;

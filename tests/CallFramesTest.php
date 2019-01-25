@@ -41,14 +41,16 @@ class CallFramesTest extends TestCase
 
     public static function staticCall()
     {
-        function foo(callable $x) {
-            (function($x){$x();})($x);
+        if (!function_exists('\Tests\Innmind\StackTrace\foo')) {
+            function foo(callable $x) {
+                (function($x){$x();})($x);
+            }
         }
 
         $callable = new class {
             public function __invoke()
             {
-                throw new \TypeError;
+                throw new \TypeError('foo', 42);
             }
         };
         $a = [$callable];

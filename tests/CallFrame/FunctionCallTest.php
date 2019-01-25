@@ -7,6 +7,7 @@ use Innmind\StackTrace\{
     CallFrame\FunctionCall,
     CallFrame\FunctionName,
     CallFrame\Line,
+    CallFrame\UserLand,
     CallFrame,
 };
 use Innmind\Url\UrlInterface;
@@ -26,6 +27,7 @@ class FunctionCallTest extends TestCase
         );
 
         $this->assertInstanceOf(CallFrame::class, $frame);
+        $this->assertInstanceOf(UserLand::class, $frame);
         $this->assertSame($name, $frame->functionName());
         $this->assertSame($file, $frame->file());
         $this->assertSame($line, $frame->line());

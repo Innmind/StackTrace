@@ -8,6 +8,7 @@ use Innmind\StackTrace\{
     CallFrame\ClassName,
     CallFrame\Method,
     CallFrame\Line,
+    CallFrame\UserLand,
     CallFrame,
 };
 use Innmind\Url\UrlInterface;
@@ -28,6 +29,7 @@ class MethodCallTest extends TestCase
         );
 
         $this->assertInstanceOf(CallFrame::class, $frame);
+        $this->assertInstanceOf(UserLand::class, $frame);
         $this->assertSame($class, $frame->class());
         $this->assertSame($method, $frame->method());
         $this->assertSame($file, $frame->file());
