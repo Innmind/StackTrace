@@ -23,7 +23,7 @@ class CallFramesTest extends TestCase
 
         $this->assertInstanceOf(StreamInterface::class, $frames);
         $this->assertSame(CallFrame::class, (string) $frames->type());
-        $this->assertCount(18, $frames);
+        $this->assertCount(17, $frames);
         $this->assertInstanceOf(CallFrame\MethodCall::class, $frames[0]);
         $this->assertInstanceOf(CallFrame\FunctionCall::class, $frames[1]);
         $this->assertInstanceOf(CallFrame\InternalFunctionCall::class, $frames[2]);
@@ -31,7 +31,7 @@ class CallFramesTest extends TestCase
         $this->assertInstanceOf(CallFrame\StaticMethodCall::class, $frames[4]);
         $this->assertInstanceOf(CallFrame\InternalStaticMethodCall::class, $frames[5]);
         $this->assertInstanceOf(CallFrame\MethodCall::class, $frames[6]);
-        $this->assertInstanceOf(CallFrame\InternalMethodCall::class, $frames[7]);
+        $this->assertInstanceOf(CallFrame\MethodCall::class, $frames[7]);
     }
 
     public static function refl()
