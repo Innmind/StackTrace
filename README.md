@@ -1,10 +1,9 @@
 # StackTrace
 
-| `master` | `develop` |
-|----------|-----------|
-| [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Innmind/StackTrace/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Innmind/StackTrace/?branch=master) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Innmind/StackTrace/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/Innmind/StackTrace/?branch=develop) |
-| [![Code Coverage](https://scrutinizer-ci.com/g/Innmind/StackTrace/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Innmind/StackTrace/?branch=master) | [![Code Coverage](https://scrutinizer-ci.com/g/Innmind/StackTrace/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/Innmind/StackTrace/?branch=develop) |
-| [![Build Status](https://scrutinizer-ci.com/g/Innmind/StackTrace/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Innmind/StackTrace/build-status/master) | [![Build Status](https://scrutinizer-ci.com/g/Innmind/StackTrace/badges/build.png?b=develop)](https://scrutinizer-ci.com/g/Innmind/StackTrace/build-status/develop) |
+| `develop` |
+|-----------|
+| [![codecov](https://codecov.io/gh/Innmind/StackTrace/branch/develop/graph/badge.svg)](https://codecov.io/gh/Innmind/StackTrace) |
+| [![Build Status](https://github.com/Innmind/StackTrace/workflows/CI/badge.svg)](https://github.com/Innmind/StackTrace/actions?query=workflow%3ACI) |
 
 Tool to inspect an Exception stack trace
 

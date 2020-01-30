@@ -27,7 +27,7 @@ class RenderTest extends TestCase
         $graph = $render(new StackTrace(new DomainException('', 0, $e)));
 
         $this->assertInstanceOf(Readable::class, $graph);
-        $this->assertNotEmpty((string) $graph);
-        file_put_contents('graph.dot', (string) $graph);
+        $this->assertNotEmpty($graph->toString());
+        file_put_contents('graph.dot', $graph->toString());
     }
 }

@@ -3,10 +3,10 @@ declare(strict_types = 1);
 
 namespace Innmind\StackTrace;
 
-use Innmind\Immutable\SequenceInterface;
+use Innmind\Immutable\Sequence;
 
 interface CallFrame
 {
-    public function arguments(): SequenceInterface;
-    public function __toString(): string;
+    public function arguments(): Sequence;
+    public function toString(): string;
 }

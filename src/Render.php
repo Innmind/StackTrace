@@ -11,48 +11,50 @@ use Innmind\Graphviz\{
 };
 use Innmind\Stream\Readable;
 use Innmind\Colour\Colour;
-use Innmind\Url\UrlInterface;
 use Innmind\Immutable\{
-    MapInterface,
     Map,
     Str,
 };
 
 final class Render
 {
-    private $nodes;
-    private $throwables;
-    private $callFrames;
-    private $link;
+    /** @var Map<string, Node> */
+    private Map $nodes;
+    private ?Graph $throwables = null;
+    private ?Graph $callFrames = null;
+    private Link $link;
 
     public function __construct(Link $link = null)
     {
         $this->link = $link ?? new Link\ToFile;
+        /** @var Map<string, Node> */
+        $this->nodes = Map::of('string', Node::class);
     }
 
     public function __invoke(StackTrace $stack): Readable
     {
         try {
-            $this->nodes = Map::of('string', Node::class);
-            $this->throwables = Graph\Graph::directed('throwables')->displayAs('Thrown');
-            $this->callFrames = Graph\Graph::directed('call_frames')->displayAs('Stack Trace');
+            $this->nodes = $this->nodes->clear();
+            $this->throwables = Graph\Graph::directed('throwables');
+            $this->throwables->displayAs('Thrown');
+            $this->callFrames = Graph\Graph::directed('call_frames');
+            $this->callFrames->displayAs('Stack Trace');
 
             $this->renderNodes($stack);
             $this->renderLinks($stack);
 
-            $graph = $this->nodes->values()->reduce(
-                Graph\Graph::directed('stack_trace'),
-                static function(Graph $graph, Node $node): Graph {
-                    return $graph->add($node);
-                }
+            $graph = Graph\Graph::directed('stack_trace');
+            $this->nodes->values()->foreach(
+                static function(Node $node) use ($graph): void {
+                    $graph->add($node);
+                },
             );
-            $graph
-                ->cluster($this->throwables)
-                ->cluster($this->callFrames);
+            $graph->cluster($this->throwables);
+            $graph->cluster($this->callFrames);
 
             return (new Dot)($graph);
         } finally {
-            $this->nodes = null;
+            $this->nodes = $this->nodes->clear();
             $this->throwables = null;
             $this->callFrames = null;
         }
@@ -76,20 +78,21 @@ final class Render
 
     private function renderThrowable(Throwable $e): void
     {
-        $node = Node\Node::named('exception_'.$this->hashThrowable($e))
-            ->displayAs(\sprintf(
-                '%s[%s](%s)',
-                $this->clean((string) $e->class()),
-                $e->code(),
-                $e->message()
-            ))
-            ->shaped(Shape::doubleoctagon()->fillWithColor(Colour::fromString('red')))
-            ->target(($this->link)($e->file(), $e->line()));
+        $node = Node\Node::named('exception_'.$this->hashThrowable($e));
+        $node->displayAs(\sprintf(
+            '%s[%s](%s)',
+            $this->clean($e->class()->toString()),
+            $e->code(),
+            $e->message()->toString(),
+        ));
+        $node->shaped(Shape::doubleoctagon()->fillWithColor(Colour::literals()->get('red')));
+        $node->target(($this->link)($e->file(), $e->line()));
 
         $this->add(
             $this->hashThrowable($e),
-            $node
+            $node,
         );
+        /** @psalm-suppress PossiblyNullReference */
         $this->throwables->add(new Node\Node($node->name()));
     }
 
@@ -101,17 +104,18 @@ final class Render
             return;
         }
 
-        $name = $this->clean((string) $frame);
+        $name = $this->clean($frame->toString());
 
-        $node = Node\Node::named('call_frame_'.\md5($hash))
-            ->displayAs($name)
-            ->shaped(Shape::box()->fillWithColor(Colour::fromString('orange')));
+        $node = Node\Node::named('call_frame_'.\md5($hash));
+        $node->displayAs($name);
+        $node->shaped(Shape::box()->fillWithColor(Colour::literals()->get('orange')));
 
         if ($frame instanceof CallFrame\UserLand) {
             $node->target(($this->link)($frame->file(), $frame->line()));
         }
 
         $this->add($hash, $node);
+        /** @psalm-suppress PossiblyNullReference */
         $this->callFrames->add(new Node\Node($node->name()));
     }
 
@@ -125,7 +129,7 @@ final class Render
                     $this->linkCausality($previous, $e);
 
                     return $previous;
-                }
+                },
             );
 
         $stack
@@ -153,14 +157,14 @@ final class Render
         }
 
         $source = $e->callFrames()->first();
-        $this
+        $edge = $this
             ->nodes
             ->get($this->hashThrowable($e))
             ->linkedTo(
-                $this->nodes->get($this->hashFrame($source))
-            )
-            ->displayAs("{$e->file()->path()}:{$e->line()}")
-            ->target(($this->link)($e->file(), $e->line()));
+                $this->nodes->get($this->hashFrame($source)),
+            );
+        $edge->displayAs("{$e->file()->path()->toString()}:{$e->line()->toString()}");
+        $edge->target(($this->link)($e->file(), $e->line()));
 
         $e
             ->callFrames()
@@ -180,19 +184,18 @@ final class Render
                     $edge = $parentNode->linkedTo($frameNode);
 
                     if ($parent instanceof CallFrame\UserLand) {
-                        $edge
-                            ->displayAs("{$parent->file()->path()}:{$parent->line()}")
-                            ->target(($this->link)($parent->file(), $parent->line()));
+                        $edge->displayAs("{$parent->file()->path()->toString()}:{$parent->line()->toString()}");
+                        $edge->target(($this->link)($parent->file(), $parent->line()));
                     }
 
                     return $parent;
-                }
+                },
             );
     }
 
     private function add(string $reference, Node $node): void
     {
-        $this->nodes = $this->nodes->put($reference, $node);
+        $this->nodes = ($this->nodes)($reference, $node);
     }
 
     /**
@@ -200,9 +203,10 @@ final class Render
      */
     private function clean(string $name): string
     {
-        return (string) Str::of($name)
+        return Str::of($name)
             ->replace("\x00", '') // remove the invisible character used in the name of anonymous classes
-            ->replace('\\', '\\\\');
+            ->replace('\\', '\\\\')
+            ->toString();
     }
 
     private function hashThrowable(Throwable $e): string
@@ -215,9 +219,9 @@ final class Render
         $prefix = '';
 
         if ($frame instanceof CallFrame\UserLand) {
-            $prefix = "{$frame->file()->path()}|{$frame->line()}|";
+            $prefix = "{$frame->file()->path()->toString()}|{$frame->line()->toString()}|";
         }
 
-        return "$prefix$frame|{$frame->arguments()->count()}";
+        return "$prefix{$frame->toString()}|{$frame->arguments()->count()}";
     }
 }

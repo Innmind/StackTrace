@@ -3,31 +3,30 @@ declare(strict_types = 1);
 
 namespace Innmind\StackTrace;
 
-use Innmind\Url\{
-    UrlInterface,
-    Url,
-};
+use Innmind\Url\Url;
 use Innmind\Immutable\{
-    StreamInterface,
+    Sequence,
     Str,
 };
 
 final class Throwable
 {
-    private $class;
-    private $code;
-    private $message;
-    private $file;
-    private $line;
-    private $trace;
-    private $frames;
+    private ClassName $class;
+    private int $code;
+    private Str $message;
+    private Url $file;
+    private Line $line;
+    /** @var Sequence<Str> */
+    private Sequence $trace;
+    /** @var Sequence<CallFrame> */
+    private Sequence $frames;
 
     public function __construct(\Throwable $e)
     {
         $this->class = new ClassName(\get_class($e));
-        $this->code = $e->getCode();
+        $this->code = (int) $e->getCode();
         $this->message = Str::of($e->getMessage());
-        $this->file = Url::fromString('file://'.$e->getFile());
+        $this->file = Url::of('file://'.$e->getFile());
         $this->line = new Line($e->getLine());
         $this->trace = Str::of($e->getTraceAsString())->split("\n");
         $this->frames = CallFrames::of($e);
@@ -48,7 +47,7 @@ final class Throwable
         return $this->message;
     }
 
-    public function file(): UrlInterface
+    public function file(): Url
     {
         return $this->file;
     }
@@ -59,17 +58,17 @@ final class Throwable
     }
 
     /**
-     * @return StreamInterface<Str>
+     * @return Sequence<Str>
      */
-    public function trace(): StreamInterface
+    public function trace(): Sequence
     {
         return $this->trace;
     }
 
     /**
-     * @return StreamInterface<CallFrame>
+     * @return Sequence<CallFrame>
      */
-    public function callFrames(): StreamInterface
+    public function callFrames(): Sequence
     {
         return $this->frames;
     }

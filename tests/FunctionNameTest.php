@@ -25,7 +25,7 @@ class FunctionNameTest extends TestCase
                 return $string !== '';
             })
             ->then(function(string $string): void {
-                $this->assertSame($string, (string) new FunctionName($string));
+                $this->assertSame($string, (new FunctionName($string))->toString());
             });
     }
 

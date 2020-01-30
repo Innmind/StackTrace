@@ -23,7 +23,7 @@ class LineTest extends TestCase
             ->forAll(Generator\pos())
             ->then(function(int $int): void {
                 $this->assertSame($int, (new Line($int))->toInt());
-                $this->assertSame((string) $int, (string) new Line($int));
+                $this->assertSame((string) $int, (new Line($int))->toString());
             });
     }
 

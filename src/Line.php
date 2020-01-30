@@ -7,7 +7,7 @@ use Innmind\StackTrace\Exception\DomainException;
 
 final class Line
 {
-    private $value;
+    private int $value;
 
     public function __construct(int $value)
     {
@@ -23,7 +23,7 @@ final class Line
         return $this->value;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return (string) $this->value;
     }

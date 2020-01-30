@@ -7,29 +7,29 @@ use Innmind\StackTrace\{
     Line,
     FunctionName,
 };
-use Innmind\Url\UrlInterface;
-use Innmind\Immutable\{
-    SequenceInterface,
-    Sequence,
-};
+use Innmind\Url\Url;
+use Innmind\Immutable\Sequence;
 
 final class FunctionCall implements UserLand
 {
-    private $functionName;
-    private $file;
-    private $line;
-    private $arguments;
+    private FunctionName $functionName;
+    private Url $file;
+    private Line $line;
+    private Sequence $arguments;
 
+    /**
+     * @param mixed $arguments
+     */
     public function __construct(
         FunctionName $functionName,
-        UrlInterface $file,
+        Url $file,
         Line $line,
         ...$arguments
     ) {
         $this->functionName = $functionName;
         $this->file = $file;
         $this->line = $line;
-        $this->arguments = Sequence::of(...$arguments);
+        $this->arguments = Sequence::mixed(...$arguments);
     }
 
     public function functionName(): FunctionName
@@ -37,7 +37,7 @@ final class FunctionCall implements UserLand
         return $this->functionName;
     }
 
-    public function file(): UrlInterface
+    public function file(): Url
     {
         return $this->file;
     }
@@ -47,13 +47,13 @@ final class FunctionCall implements UserLand
         return $this->line;
     }
 
-    public function arguments(): SequenceInterface
+    public function arguments(): Sequence
     {
         return $this->arguments;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return "$this->functionName()";
+        return "{$this->functionName->toString()}()";
     }
 }

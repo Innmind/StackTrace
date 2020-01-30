@@ -8,24 +8,24 @@ use Innmind\StackTrace\{
     Method,
     Line,
 };
-use Innmind\Url\UrlInterface;
-use Innmind\Immutable\{
-    SequenceInterface,
-    Sequence,
-};
+use Innmind\Url\Url;
+use Innmind\Immutable\Sequence;
 
 final class StaticMethodCall implements UserLand
 {
-    private $class;
-    private $method;
-    private $file;
-    private $line;
-    private $arguments;
+    private ClassName $class;
+    private Method $method;
+    private Url $file;
+    private Line $line;
+    private Sequence $arguments;
 
+    /**
+     * @param mixed $arguments
+     */
     public function __construct(
         ClassName $class,
         Method $method,
-        UrlInterface $file,
+        Url $file,
         Line $line,
         ...$arguments
     ) {
@@ -33,7 +33,7 @@ final class StaticMethodCall implements UserLand
         $this->method = $method;
         $this->file = $file;
         $this->line = $line;
-        $this->arguments = Sequence::of(...$arguments);
+        $this->arguments = Sequence::mixed(...$arguments);
     }
 
     public function class(): ClassName
@@ -46,7 +46,7 @@ final class StaticMethodCall implements UserLand
         return $this->method;
     }
 
-    public function file(): UrlInterface
+    public function file(): Url
     {
         return $this->file;
     }
@@ -56,13 +56,13 @@ final class StaticMethodCall implements UserLand
         return $this->line;
     }
 
-    public function arguments(): SequenceInterface
+    public function arguments(): Sequence
     {
         return $this->arguments;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return "{$this->class}::{$this->method}()";
+        return "{$this->class->toString()}::{$this->method->toString()}()";
     }
 }

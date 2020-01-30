@@ -8,20 +8,20 @@ use Innmind\StackTrace\{
     ClassName,
     Method,
 };
-use Innmind\Immutable\{
-    SequenceInterface,
-    Sequence,
-};
+use Innmind\Immutable\Sequence;
 
 /**
  * Function called within language function (ie: array_map) or by reflection
  */
 final class InternalStaticMethodCall implements CallFrame
 {
-    private $class;
-    private $method;
-    private $arguments;
+    private ClassName $class;
+    private Method $method;
+    private Sequence $arguments;
 
+    /**
+     * @param mixed $arguments
+     */
     public function __construct(
         ClassName $class,
         Method $method,
@@ -29,7 +29,7 @@ final class InternalStaticMethodCall implements CallFrame
     ) {
         $this->class = $class;
         $this->method = $method;
-        $this->arguments = Sequence::of(...$arguments);
+        $this->arguments = Sequence::mixed(...$arguments);
     }
 
     public function class(): ClassName
@@ -42,13 +42,13 @@ final class InternalStaticMethodCall implements CallFrame
         return $this->method;
     }
 
-    public function arguments(): SequenceInterface
+    public function arguments(): Sequence
     {
         return $this->arguments;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return "{$this->class}::{$this->method}()";
+        return "{$this->class->toString()}::{$this->method->toString()}()";
     }
 }
