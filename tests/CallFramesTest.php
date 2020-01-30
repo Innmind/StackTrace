@@ -18,6 +18,7 @@ class CallFramesTest extends TestCase
             $refl = new \ReflectionMethod(self::class, 'refl');
             $refl->invoke($this);
         } catch (\TypeError $e) {
+            var_dump($e->getTrace());
             $frames = CallFrames::of($e);
         }
 
