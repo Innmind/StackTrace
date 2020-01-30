@@ -32,7 +32,7 @@ final class CallFrames
     }
 
     /**
-     * @param array{class?: string, type: string, file?: string, function: string, file: string, line: int, args: array} $frame
+     * @param array{class?: string, type: string, file?: string, function: string, file: string, line: int, args?: array} $frame
      */
     private static function methodCall(array $frame): ?CallFrame
     {
@@ -53,12 +53,12 @@ final class CallFrames
             new Method($frame['function']),
             Url::of('file://'.$frame['file']),
             new Line($frame['line']),
-            ...$frame['args'],
+            ...$frame['args'] ?? [],
         );
     }
 
     /**
-     * @param array{class?: string, type: string, file?: string, function: string, line: int, args: array} $frame
+     * @param array{class?: string, type: string, file?: string, function: string, line: int, args?: array} $frame
      */
     private static function staticMethodCall(array $frame): ?CallFrame
     {
@@ -79,12 +79,12 @@ final class CallFrames
             new Method($frame['function']),
             Url::of('file://'.$frame['file']),
             new Line($frame['line']),
-            ...$frame['args'],
+            ...$frame['args'] ?? [],
         );
     }
 
     /**
-     * @param array{class?: string, type: string, function: string, args: array} $frame
+     * @param array{class?: string, type: string, function: string, args?: array} $frame
      */
     private static function internalMethodCall(array $frame): ?CallFrame
     {
@@ -99,12 +99,12 @@ final class CallFrames
         return new CallFrame\InternalMethodCall(
             new ClassName($frame['class']),
             new Method($frame['function']),
-            ...$frame['args'],
+            ...$frame['args'] ?? [],
         );
     }
 
     /**
-     * @param array{class?: string, type: string, function: string, args: array} $frame
+     * @param array{class?: string, type: string, function: string, args?: array} $frame
      */
     private static function internalStaticMethodCall(array $frame): ?CallFrame
     {
@@ -119,12 +119,12 @@ final class CallFrames
         return new CallFrame\InternalStaticMethodCall(
             new ClassName($frame['class']),
             new Method($frame['function']),
-            ...$frame['args'],
+            ...$frame['args'] ?? [],
         );
     }
 
     /**
-     * @param array{file?: string, function: string, file: string, line: int, args: array}  $frame
+     * @param array{file?: string, function: string, file: string, line: int, args?: array}  $frame
      */
     private static function functionCall(array $frame): ?CallFrame
     {
@@ -136,18 +136,18 @@ final class CallFrames
             new FunctionName($frame['function']),
             Url::of('file://'.$frame['file']),
             new Line($frame['line']),
-            ...$frame['args'],
+            ...$frame['args'] ?? [],
         );
     }
 
     /**
-     * @param array{function: string, args: array} $frame
+     * @param array{function: string, args?: array} $frame
      */
     private static function internalFunctionCall(array $frame): CallFrame
     {
         return new CallFrame\InternalFunctionCall(
             new FunctionName($frame['function']),
-            ...$frame['args'],
+            ...$frame['args'] ?? [],
         );
     }
 }
