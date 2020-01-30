@@ -15,6 +15,9 @@ final class CallFrames
     {
         $frames = [];
 
+        /**
+         * @var array{class?: string, type: string, file?: string, function: string, file: string, line: int, args: array} $frame
+         */
         foreach ($throwable->getTrace() as $frame) {
             $frames[] = self::methodCall($frame) ??
                 self::staticMethodCall($frame) ??
@@ -24,9 +27,13 @@ final class CallFrames
                 self::internalFunctionCall($frame);
         }
 
+        /** @var Sequence<CallFrame> */
         return Sequence::of(CallFrame::class, ...$frames);
     }
 
+    /**
+     * @param array{class?: string, type: string, file?: string, function: string, file: string, line: int, args: array} $frame
+     */
     private static function methodCall(array $frame): ?CallFrame
     {
         if (!\array_key_exists('class', $frame)) {
@@ -50,6 +57,9 @@ final class CallFrames
         );
     }
 
+    /**
+     * @param array{class?: string, type: string, file?: string, function: string, line: int, args: array} $frame
+     */
     private static function staticMethodCall(array $frame): ?CallFrame
     {
         if (!\array_key_exists('class', $frame)) {
@@ -73,6 +83,9 @@ final class CallFrames
         );
     }
 
+    /**
+     * @param array{class?: string, type: string, function: string, args: array} $frame
+     */
     private static function internalMethodCall(array $frame): ?CallFrame
     {
         if (!\array_key_exists('class', $frame)) {
@@ -90,6 +103,9 @@ final class CallFrames
         );
     }
 
+    /**
+     * @param array{class?: string, type: string, function: string, args: array} $frame
+     */
     private static function internalStaticMethodCall(array $frame): ?CallFrame
     {
         if (!\array_key_exists('class', $frame)) {
@@ -107,6 +123,9 @@ final class CallFrames
         );
     }
 
+    /**
+     * @param array{file?: string, function: string, file: string, line: int, args: array}  $frame
+     */
     private static function functionCall(array $frame): ?CallFrame
     {
         if (!\array_key_exists('file', $frame)) {
@@ -121,6 +140,9 @@ final class CallFrames
         );
     }
 
+    /**
+     * @param array{function: string, args: array} $frame
+     */
     private static function internalFunctionCall(array $frame): CallFrame
     {
         return new CallFrame\InternalFunctionCall(

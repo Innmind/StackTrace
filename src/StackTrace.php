@@ -8,11 +8,13 @@ use Innmind\Immutable\Sequence;
 final class StackTrace
 {
     private Throwable $throwable;
+    /** @var Sequence<Throwable> */
     private Sequence $previous;
 
     public function __construct(\Throwable $e)
     {
         $this->throwable = new Throwable($e);
+        /** @var Sequence<Throwable> */
         $this->previous = Sequence::of(Throwable::class);
 
         while ($previous = $e->getPrevious()) {

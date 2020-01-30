@@ -19,6 +19,9 @@ final class InternalStaticMethodCall implements CallFrame
     private Method $method;
     private Sequence $arguments;
 
+    /**
+     * @param mixed $arguments
+     */
     public function __construct(
         ClassName $class,
         Method $method,

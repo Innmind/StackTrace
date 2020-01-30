@@ -17,6 +17,9 @@ final class InternalFunctionCall implements CallFrame
     private FunctionName $functionName;
     private Sequence $arguments;
 
+    /**
+     * @param mixed $arguments
+     */
     public function __construct(FunctionName $functionName, ...$arguments)
     {
         $this->functionName = $functionName;

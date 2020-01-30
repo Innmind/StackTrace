@@ -18,7 +18,8 @@ use Innmind\Immutable\{
 
 final class Render
 {
-    private ?Map $nodes = null;
+    /** @var Map<string, Node> */
+    private Map $nodes;
     private ?Graph $throwables = null;
     private ?Graph $callFrames = null;
     private Link $link;
@@ -26,12 +27,14 @@ final class Render
     public function __construct(Link $link = null)
     {
         $this->link = $link ?? new Link\ToFile;
+        /** @var Map<string, Node> */
+        $this->nodes = Map::of('string', Node::class);
     }
 
     public function __invoke(StackTrace $stack): Readable
     {
         try {
-            $this->nodes = Map::of('string', Node::class);
+            $this->nodes = $this->nodes->clear();
             $this->throwables = Graph\Graph::directed('throwables');
             $this->throwables->displayAs('Thrown');
             $this->callFrames = Graph\Graph::directed('call_frames');
@@ -53,7 +56,7 @@ final class Render
 
             return (new Dot)($graph);
         } finally {
-            $this->nodes = null;
+            $this->nodes = $this->nodes->clear();
             $this->throwables = null;
             $this->callFrames = null;
         }
@@ -84,13 +87,14 @@ final class Render
             $e->code(),
             $e->message()->toString(),
         ));
-        $node->shaped(Shape::doubleoctagon()->fillWithColor(Colour::of('red')));
+        $node->shaped(Shape::doubleoctagon()->fillWithColor(Colour::literals()->get('red')));
         $node->target(($this->link)($e->file(), $e->line()));
 
         $this->add(
             $this->hashThrowable($e),
             $node
         );
+        /** @psalm-suppress PossiblyNullReference */
         $this->throwables->add(new Node\Node($node->name()));
     }
 
@@ -106,13 +110,14 @@ final class Render
 
         $node = Node\Node::named('call_frame_'.\md5($hash));
         $node->displayAs($name);
-        $node->shaped(Shape::box()->fillWithColor(Colour::of('orange')));
+        $node->shaped(Shape::box()->fillWithColor(Colour::literals()->get('orange')));
 
         if ($frame instanceof CallFrame\UserLand) {
             $node->target(($this->link)($frame->file(), $frame->line()));
         }
 
         $this->add($hash, $node);
+        /** @psalm-suppress PossiblyNullReference */
         $this->callFrames->add(new Node\Node($node->name()));
     }
 

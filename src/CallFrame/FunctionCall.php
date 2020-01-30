@@ -17,6 +17,9 @@ final class FunctionCall implements UserLand
     private Line $line;
     private Sequence $arguments;
 
+    /**
+     * @param mixed $arguments
+     */
     public function __construct(
         FunctionName $functionName,
         Url $file,

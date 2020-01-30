@@ -16,13 +16,15 @@ final class Throwable
     private Str $message;
     private Url $file;
     private Line $line;
+    /** @var Sequence<Str> */
     private Sequence $trace;
+    /** @var Sequence<CallFrame> */
     private Sequence $frames;
 
     public function __construct(\Throwable $e)
     {
         $this->class = new ClassName(\get_class($e));
-        $this->code = $e->getCode();
+        $this->code = (int) $e->getCode();
         $this->message = Str::of($e->getMessage());
         $this->file = Url::of('file://'.$e->getFile());
         $this->line = new Line($e->getLine());

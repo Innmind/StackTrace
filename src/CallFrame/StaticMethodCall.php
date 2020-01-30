@@ -19,6 +19,9 @@ final class StaticMethodCall implements UserLand
     private Line $line;
     private Sequence $arguments;
 
+    /**
+     * @param mixed $arguments
+     */
     public function __construct(
         ClassName $class,
         Method $method,
