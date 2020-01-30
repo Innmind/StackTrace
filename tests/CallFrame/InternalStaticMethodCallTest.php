@@ -29,6 +29,6 @@ class InternalStaticMethodCallTest extends TestCase
         $this->assertSame($method, $frame->method());
         $this->assertInstanceOf(Sequence::class, $frame->arguments());
         $this->assertSame(['foo', 'bar'], unwrap($frame->arguments()));
-        $this->assertSame('foo::bar()', (string) $frame);
+        $this->assertSame('foo::bar()', $frame->toString());
     }
 }

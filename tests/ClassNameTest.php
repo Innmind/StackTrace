@@ -25,7 +25,7 @@ class ClassNameTest extends TestCase
                 return $string !== '';
             })
             ->then(function(string $string): void {
-                $this->assertSame($string, (string) new ClassName($string));
+                $this->assertSame($string, (new ClassName($string))->toString());
             });
     }
 

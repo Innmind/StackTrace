@@ -24,7 +24,7 @@ class ThrowableTest extends TestCase
         $throwable = new Throwable($e = new \Exception('foo', 42));
 
         $this->assertInstanceOf(ClassName::class, $throwable->class());
-        $this->assertSame(\Exception::class, (string) $throwable->class());
+        $this->assertSame(\Exception::class, $throwable->class()->toString());
         $this->assertInstanceOf(Str::class, $throwable->message());
         $this->assertSame('foo', $throwable->message()->toString());
         $this->assertSame(42, $throwable->code());

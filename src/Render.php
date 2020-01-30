@@ -83,7 +83,7 @@ final class Render
         $node = Node\Node::named('exception_'.$this->hashThrowable($e));
         $node->displayAs(\sprintf(
             '%s[%s](%s)',
-            $this->clean((string) $e->class()),
+            $this->clean($e->class()->toString()),
             $e->code(),
             $e->message()->toString(),
         ));
@@ -106,7 +106,7 @@ final class Render
             return;
         }
 
-        $name = $this->clean((string) $frame);
+        $name = $this->clean($frame->toString());
 
         $node = Node\Node::named('call_frame_'.\md5($hash));
         $node->displayAs($name);
@@ -165,7 +165,7 @@ final class Render
             ->linkedTo(
                 $this->nodes->get($this->hashFrame($source))
             );
-        $edge->displayAs("{$e->file()->path()->toString()}:{$e->line()}");
+        $edge->displayAs("{$e->file()->path()->toString()}:{$e->line()->toString()}");
         $edge->target(($this->link)($e->file(), $e->line()));
 
         $e
@@ -186,7 +186,7 @@ final class Render
                     $edge = $parentNode->linkedTo($frameNode);
 
                     if ($parent instanceof CallFrame\UserLand) {
-                        $edge->displayAs("{$parent->file()->path()->toString()}:{$parent->line()}");
+                        $edge->displayAs("{$parent->file()->path()->toString()}:{$parent->line()->toString()}");
                         $edge->target(($this->link)($parent->file(), $parent->line()));
                     }
 
@@ -221,9 +221,9 @@ final class Render
         $prefix = '';
 
         if ($frame instanceof CallFrame\UserLand) {
-            $prefix = "{$frame->file()->path()->toString()}|{$frame->line()}|";
+            $prefix = "{$frame->file()->path()->toString()}|{$frame->line()->toString()}|";
         }
 
-        return "$prefix$frame|{$frame->arguments()->count()}";
+        return "$prefix{$frame->toString()}|{$frame->arguments()->count()}";
     }
 }

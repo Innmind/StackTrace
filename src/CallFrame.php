@@ -8,5 +8,5 @@ use Innmind\Immutable\Sequence;
 interface CallFrame
 {
     public function arguments(): Sequence;
-    public function __toString(): string;
+    public function toString(): string;
 }

@@ -47,8 +47,8 @@ final class InternalStaticMethodCall implements CallFrame
         return $this->arguments;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return "{$this->class}::{$this->method}()";
+        return "{$this->class->toString()}::{$this->method->toString()}()";
     }
 }

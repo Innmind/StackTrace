@@ -52,8 +52,8 @@ final class FunctionCall implements UserLand
         return $this->arguments;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return "$this->functionName()";
+        return "{$this->functionName->toString()}()";
     }
 }

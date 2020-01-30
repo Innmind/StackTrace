@@ -34,6 +34,6 @@ class FunctionCallTest extends TestCase
         $this->assertSame($line, $frame->line());
         $this->assertInstanceOf(Sequence::class, $frame->arguments());
         $this->assertSame(['foo', 'bar'], unwrap($frame->arguments()));
-        $this->assertSame('foo()', (string) $frame);
+        $this->assertSame('foo()', $frame->toString());
     }
 }

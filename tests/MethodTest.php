@@ -25,7 +25,7 @@ class MethodTest extends TestCase
                 return $string !== '';
             })
             ->then(function(string $string): void {
-                $this->assertSame($string, (string) new Method($string));
+                $this->assertSame($string, (new Method($string))->toString());
             });
     }
 
