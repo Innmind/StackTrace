@@ -18,9 +18,9 @@ use Innmind\Immutable\{
  */
 final class InternalStaticMethodCall implements CallFrame
 {
-    private $class;
-    private $method;
-    private $arguments;
+    private ClassName $class;
+    private Method $method;
+    private Sequence $arguments;
 
     public function __construct(
         ClassName $class,

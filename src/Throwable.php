@@ -14,13 +14,13 @@ use Innmind\Immutable\{
 
 final class Throwable
 {
-    private $class;
-    private $code;
-    private $message;
-    private $file;
-    private $line;
-    private $trace;
-    private $frames;
+    private ClassName $class;
+    private int $code;
+    private Str $message;
+    private Url $file;
+    private Line $line;
+    private StreamInterface $trace;
+    private StreamInterface $frames;
 
     public function __construct(\Throwable $e)
     {

@@ -16,11 +16,11 @@ use Innmind\Immutable\{
 
 final class MethodCall implements UserLand
 {
-    private $class;
-    private $method;
-    private $file;
-    private $line;
-    private $arguments;
+    private ClassName $class;
+    private Method $method;
+    private UrlInterface $file;
+    private Line $line;
+    private Sequence $arguments;
 
     public function __construct(
         ClassName $class,

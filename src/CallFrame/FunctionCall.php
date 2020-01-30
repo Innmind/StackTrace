@@ -15,10 +15,10 @@ use Innmind\Immutable\{
 
 final class FunctionCall implements UserLand
 {
-    private $functionName;
-    private $file;
-    private $line;
-    private $arguments;
+    private FunctionName $functionName;
+    private UrlInterface $file;
+    private Line $line;
+    private Sequence $arguments;
 
     public function __construct(
         FunctionName $functionName,

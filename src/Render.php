@@ -20,10 +20,10 @@ use Innmind\Immutable\{
 
 final class Render
 {
-    private $nodes;
-    private $throwables;
-    private $callFrames;
-    private $link;
+    private ?Map $nodes = null;
+    private ?Graph $throwables = null;
+    private ?Graph $callFrames = null;
+    private Link $link;
 
     public function __construct(Link $link = null)
     {

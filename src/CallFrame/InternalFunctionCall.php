@@ -17,8 +17,8 @@ use Innmind\Immutable\{
  */
 final class InternalFunctionCall implements CallFrame
 {
-    private $functionName;
-    private $arguments;
+    private FunctionName $functionName;
+    private Sequence $arguments;
 
     public function __construct(FunctionName $functionName, ...$arguments)
     {

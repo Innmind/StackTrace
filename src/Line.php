@@ -7,7 +7,7 @@ use Innmind\StackTrace\Exception\DomainException;
 
 final class Line
 {
-    private $value;
+    private int $value;
 
     public function __construct(int $value)
     {

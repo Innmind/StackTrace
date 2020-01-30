@@ -10,8 +10,8 @@ use Innmind\Immutable\{
 
 final class StackTrace
 {
-    private $throwable;
-    private $previous;
+    private Throwable $throwable;
+    private Stream $previous;
 
     public function __construct(\Throwable $e)
     {
