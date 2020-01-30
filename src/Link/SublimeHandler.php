@@ -8,7 +8,7 @@ use Innmind\StackTrace\{
     Line,
 };
 use Innmind\Url\{
-    UrlInterface,
+    Url,
     Scheme,
 };
 
@@ -20,8 +20,8 @@ use Innmind\Url\{
  */
 final class SublimeHandler implements Link
 {
-    public function __invoke(UrlInterface $file, Line $line): UrlInterface
+    public function __invoke(Url $file, Line $line): Url
     {
-        return $file->withScheme(new Scheme('sublime'));
+        return $file->withScheme(Scheme::of('sublime'));
     }
 }

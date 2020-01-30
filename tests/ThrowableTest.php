@@ -9,11 +9,12 @@ use Innmind\StackTrace\{
     ClassName,
     Line,
 };
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 use Innmind\Immutable\{
-    StreamInterface,
+    Sequence,
     Str,
 };
+use function Innmind\Immutable\join;
 use PHPUnit\Framework\TestCase;
 
 class ThrowableTest extends TestCase
@@ -25,18 +26,24 @@ class ThrowableTest extends TestCase
         $this->assertInstanceOf(ClassName::class, $throwable->class());
         $this->assertSame(\Exception::class, (string) $throwable->class());
         $this->assertInstanceOf(Str::class, $throwable->message());
-        $this->assertSame('foo', (string) $throwable->message());
+        $this->assertSame('foo', $throwable->message()->toString());
         $this->assertSame(42, $throwable->code());
-        $this->assertInstanceOf(UrlInterface::class, $throwable->file());
-        $this->assertSame('file://'.__FILE__, (string) $throwable->file());
+        $this->assertInstanceOf(Url::class, $throwable->file());
+        $this->assertSame('file://'.__FILE__, $throwable->file()->toString());
         $this->assertInstanceOf(Line::class, $throwable->line());
-        $this->assertSame(23, $throwable->line()->toInt());
-        $this->assertInstanceOf(StreamInterface::class, $throwable->trace());
-        $this->assertSame(Str::class, (string) $throwable->trace()->type());
+        $this->assertSame(24, $throwable->line()->toInt());
+        $this->assertInstanceOf(Sequence::class, $throwable->trace());
+        $this->assertSame(Str::class, $throwable->trace()->type());
         $this->assertCount(11, $throwable->trace());
-        $this->assertSame($e->getTraceAsString(), (string) $throwable->trace()->join("\n"));
-        $this->assertInstanceOf(StreamInterface::class, $throwable->callFrames());
-        $this->assertSame(CallFrame::class, (string) $throwable->callFrames()->type());
+        $this->assertSame(
+            $e->getTraceAsString(),
+            join("\n", $throwable->trace()->mapTo(
+                'string',
+                fn($line) => $line->toString(),
+            ))->toString(),
+        );
+        $this->assertInstanceOf(Sequence::class, $throwable->callFrames());
+        $this->assertSame(CallFrame::class, $throwable->callFrames()->type());
         $this->assertCount(10, $throwable->callFrames());
     }
 }

@@ -9,7 +9,8 @@ use Innmind\StackTrace\{
     ClassName,
     Method,
 };
-use Innmind\Immutable\SequenceInterface;
+use Innmind\Immutable\Sequence;
+use function Innmind\Immutable\unwrap;
 use PHPUnit\Framework\TestCase;
 
 class InternalMethodCallTest extends TestCase
@@ -26,8 +27,8 @@ class InternalMethodCallTest extends TestCase
         $this->assertInstanceOf(CallFrame::class, $frame);
         $this->assertSame($class, $frame->class());
         $this->assertSame($method, $frame->method());
-        $this->assertInstanceOf(SequenceInterface::class, $frame->arguments());
-        $this->assertSame(['foo', 'bar'], $frame->arguments()->toPrimitive());
+        $this->assertInstanceOf(Sequence::class, $frame->arguments());
+        $this->assertSame(['foo', 'bar'], unwrap($frame->arguments()));
         $this->assertSame('foo->bar()', (string) $frame);
     }
 }

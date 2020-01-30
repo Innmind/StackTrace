@@ -11,8 +11,9 @@ use Innmind\StackTrace\{
     Method,
     Line,
 };
-use Innmind\Url\UrlInterface;
-use Innmind\Immutable\SequenceInterface;
+use Innmind\Url\Url;
+use Innmind\Immutable\Sequence;
+use function Innmind\Immutable\unwrap;
 use PHPUnit\Framework\TestCase;
 
 class StaticMethodCallTest extends TestCase
@@ -22,7 +23,7 @@ class StaticMethodCallTest extends TestCase
         $frame = new StaticMethodCall(
             $class = new ClassName('foo'),
             $method = new Method('bar'),
-            $file = $this->createMock(UrlInterface::class),
+            $file = Url::of('http://example.com'),
             $line = new Line(42),
             'foo',
             'bar'
@@ -34,8 +35,8 @@ class StaticMethodCallTest extends TestCase
         $this->assertSame($method, $frame->method());
         $this->assertSame($file, $frame->file());
         $this->assertSame($line, $frame->line());
-        $this->assertInstanceOf(SequenceInterface::class, $frame->arguments());
-        $this->assertSame(['foo', 'bar'], $frame->arguments()->toPrimitive());
+        $this->assertInstanceOf(Sequence::class, $frame->arguments());
+        $this->assertSame(['foo', 'bar'], unwrap($frame->arguments()));
         $this->assertSame('foo::bar()', (string) $frame);
     }
 }

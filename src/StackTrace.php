@@ -3,20 +3,17 @@ declare(strict_types = 1);
 
 namespace Innmind\StackTrace;
 
-use Innmind\Immutable\{
-    StreamInterface,
-    Stream,
-};
+use Innmind\Immutable\Sequence;
 
 final class StackTrace
 {
     private Throwable $throwable;
-    private Stream $previous;
+    private Sequence $previous;
 
     public function __construct(\Throwable $e)
     {
         $this->throwable = new Throwable($e);
-        $this->previous = Stream::of(Throwable::class);
+        $this->previous = Sequence::of(Throwable::class);
 
         while ($previous = $e->getPrevious()) {
             $this->previous = $this->previous->add(new Throwable($previous));
@@ -30,9 +27,9 @@ final class StackTrace
     }
 
     /**
-     * @return StreamInterface<Throwable>
+     * @return Sequence<Throwable>
      */
-    public function previous(): StreamInterface
+    public function previous(): Sequence
     {
         return $this->previous;
     }

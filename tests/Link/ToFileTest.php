@@ -8,7 +8,7 @@ use Innmind\StackTrace\{
     Link,
     Line,
 };
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 use PHPUnit\Framework\TestCase;
 
 class ToFileTest extends TestCase
@@ -21,7 +21,7 @@ class ToFileTest extends TestCase
     public function testInvokation()
     {
         $link = new ToFile;
-        $file = $this->createMock(UrlInterface::class);
+        $file = Url::of('http://example.com');
 
         $this->assertSame($file, $link($file, new Line(42)));
     }

@@ -21,11 +21,11 @@ class SublimeHandlerTest extends TestCase
     public function testInvokation()
     {
         $link = new SublimeHandler;
-        $file = Url::fromString('file:///foo/bar/baz.php');
+        $file = Url::of('file:///foo/bar/baz.php');
 
         $this->assertSame(
             'sublime:///foo/bar/baz.php',
-            (string) $link($file, new Line(42))
+            $link($file, new Line(42))->toString(),
         );
     }
 }

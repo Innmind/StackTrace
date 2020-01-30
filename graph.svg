@@ -19,9 +19,9 @@
 <polygon fill="none" stroke="black" points="8,-8 8,-1468 684,-1468 684,-8 8,-8"/>
 <text text-anchor="middle" x="346" y="-1452.8" font-family="Times,serif" font-size="14.00">Stack Trace</text>
 </g>
-<!-- exception_000000007b15038c000000001c25dffc -->
+<!-- exception_0000000078edbb4e0000000005b825e7 -->
 <g id="node1" class="node">
-<title>exception_000000007b15038c000000001c25dffc</title>
+<title>exception_0000000078edbb4e0000000005b825e7</title>
 <g id="a_node1"><a xlink:href="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php" xlink:title="TypeError[42](foo)">
 <polygon fill="#ff0000" stroke="black" points="1047.42,-606.54 1047.42,-621.46 997.38,-632 926.62,-632 876.58,-621.46 876.58,-606.54 926.62,-596 997.38,-596 1047.42,-606.54"/>
 <polygon fill="none" stroke="black" points="1051.43,-603.3 1051.43,-624.7 997.8,-636 926.2,-636 872.57,-624.7 872.57,-603.3 926.2,-592 997.8,-592 1051.43,-603.3"/>
@@ -29,18 +29,18 @@
 </a>
 </g>
 </g>
-<!-- call_frame_de16668409e5e444170036926ffd7054 -->
+<!-- call_frame_285881e6017615d7af96f1b5aaa39ddf -->
 <g id="node3" class="node">
-<title>call_frame_de16668409e5e444170036926ffd7054</title>
-<g id="a_node3"><a xlink:href="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php" xlink:title="class@anonymous/Users/baptouuuu/Sites/innmind/stack&#45;trace/tests/CallFramesTest.php0x10948a6c9&#45;&gt;__invoke()">
+<title>call_frame_285881e6017615d7af96f1b5aaa39ddf</title>
+<g id="a_node3"><a xlink:href="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php" xlink:title="class@anonymous/Users/baptouuuu/Sites/innmind/stack&#45;trace/tests/CallFramesTest.php0x10548a6da&#45;&gt;__invoke()">
 <polygon fill="#ffa500" stroke="black" points="675.86,-52 16.14,-52 16.14,-16 675.86,-16 675.86,-52"/>
-<text text-anchor="middle" x="346" y="-29.8" font-family="Times,serif" font-size="14.00">class@anonymous/Users/baptouuuu/Sites/innmind/stack&#45;trace/tests/CallFramesTest.php0x10948a6c9&#45;&gt;__invoke()</text>
+<text text-anchor="middle" x="346" y="-29.8" font-family="Times,serif" font-size="14.00">class@anonymous/Users/baptouuuu/Sites/innmind/stack&#45;trace/tests/CallFramesTest.php0x10548a6da&#45;&gt;__invoke()</text>
 </a>
 </g>
 </g>
-<!-- exception_000000007b15038c000000001c25dffc&#45;&gt;call_frame_de16668409e5e444170036926ffd7054 -->
+<!-- exception_0000000078edbb4e0000000005b825e7&#45;&gt;call_frame_285881e6017615d7af96f1b5aaa39ddf -->
 <g id="edge1" class="edge">
-<title>exception_000000007b15038c000000001c25dffc&#45;&gt;call_frame_de16668409e5e444170036926ffd7054</title>
+<title>exception_0000000078edbb4e0000000005b825e7&#45;&gt;call_frame_285881e6017615d7af96f1b5aaa39ddf</title>
 <g id="a_edge1"><a xlink:href="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php" xlink:title="/Users/baptouuuu/Sites/innmind/stack&#45;trace/tests/CallFramesTest.php:53">
 <path fill="none" stroke="black" d="M878.36,-601.98C799.4,-589.16 693,-564.56 693,-525 693,-525 693,-525 693,-119 693,-96.35 696.34,-84.57 679,-70 671.24,-63.48 642.97,-57.91 605.96,-53.27"/>
 <polygon fill="black" stroke="black" points="606.18,-49.77 595.84,-52.04 605.34,-56.72 606.18,-49.77"/>
@@ -51,9 +51,9 @@
 </a>
 </g>
 </g>
-<!-- exception_000000007b1502c0000000001c25dffc -->
+<!-- exception_0000000078edba6c0000000005b825e7 -->
 <g id="node2" class="node">
-<title>exception_000000007b1502c0000000001c25dffc</title>
+<title>exception_0000000078edba6c0000000005b825e7</title>
 <g id="a_node2"><a xlink:href="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/RenderTest.php" xlink:title="Innmind\\StackTrace\\Exception\\DomainException[0]()">
 <polygon fill="#ff0000" stroke="black" points="1204.12,-700.54 1204.12,-715.46 1075.17,-726 892.83,-726 763.88,-715.46 763.88,-700.54 892.83,-690 1075.17,-690 1204.12,-700.54"/>
 <polygon fill="none" stroke="black" points="1208.12,-696.86 1208.12,-719.14 1075.34,-730 892.66,-730 759.88,-719.14 759.88,-696.86 892.66,-686 1075.34,-686 1208.12,-696.86"/>
@@ -61,9 +61,9 @@
 </a>
 </g>
 </g>
-<!-- exception_000000007b1502c0000000001c25dffc&#45;&gt;exception_000000007b15038c000000001c25dffc -->
+<!-- exception_0000000078edba6c0000000005b825e7&#45;&gt;exception_0000000078edbb4e0000000005b825e7 -->
 <g id="edge18" class="edge">
-<title>exception_000000007b1502c0000000001c25dffc&#45;&gt;exception_000000007b15038c000000001c25dffc</title>
+<title>exception_0000000078edba6c0000000005b825e7&#45;&gt;exception_0000000078edbb4e0000000005b825e7</title>
 <path fill="none" stroke="black" d="M978.9,-685.66C976.09,-673.93 972.56,-659.17 969.45,-646.17"/>
 <polygon fill="black" stroke="black" points="972.8,-645.13 967.07,-636.22 966,-646.76 972.8,-645.13"/>
 <text text-anchor="middle" x="1004.53" y="-656.8" font-family="Times,serif" font-size="14.00">Caused By</text>
@@ -77,9 +77,9 @@
 </a>
 </g>
 </g>
-<!-- exception_000000007b1502c0000000001c25dffc&#45;&gt;call_frame_c951407c4dade63b5f300f7ff9f3fa47 -->
+<!-- exception_0000000078edba6c0000000005b825e7&#45;&gt;call_frame_c951407c4dade63b5f300f7ff9f3fa47 -->
 <g id="edge19" class="edge">
-<title>exception_000000007b1502c0000000001c25dffc&#45;&gt;call_frame_c951407c4dade63b5f300f7ff9f3fa47</title>
+<title>exception_0000000078edba6c0000000005b825e7&#45;&gt;call_frame_c951407c4dade63b5f300f7ff9f3fa47</title>
 <g id="a_edge19"><a xlink:href="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/RenderTest.php" xlink:title="/Users/baptouuuu/Sites/innmind/stack&#45;trace/tests/RenderTest.php:27">
 <path fill="none" stroke="black" d="M779.44,-695.22C741.68,-689.28 703.12,-680.61 668,-668 657.09,-664.08 656.98,-657.7 646,-654 593.91,-636.43 466.21,-626.52 357.93,-621.09"/>
 <polygon fill="black" stroke="black" points="358.01,-617.59 347.85,-620.6 357.67,-624.58 358.01,-617.59"/>
@@ -99,9 +99,9 @@
 </a>
 </g>
 </g>
-<!-- call_frame_3b20705e91b76895162ff69f4f07a23e&#45;&gt;call_frame_de16668409e5e444170036926ffd7054 -->
+<!-- call_frame_3b20705e91b76895162ff69f4f07a23e&#45;&gt;call_frame_285881e6017615d7af96f1b5aaa39ddf -->
 <g id="edge2" class="edge">
-<title>call_frame_3b20705e91b76895162ff69f4f07a23e&#45;&gt;call_frame_de16668409e5e444170036926ffd7054</title>
+<title>call_frame_3b20705e91b76895162ff69f4f07a23e&#45;&gt;call_frame_285881e6017615d7af96f1b5aaa39ddf</title>
 <g id="a_edge2"><a xlink:href="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php" xlink:title="/Users/baptouuuu/Sites/innmind/stack&#45;trace/tests/CallFramesTest.php:46">
 <path fill="none" stroke="black" d="M259.08,-101.92C260.52,-91.66 263.83,-78.91 271.32,-70 275.37,-65.18 280.23,-60.98 285.51,-57.34"/>
 <polygon fill="black" stroke="black" points="287.4,-60.28 294.08,-52.05 283.73,-54.32 287.4,-60.28"/>

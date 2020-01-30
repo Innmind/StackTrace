@@ -7,7 +7,7 @@ use Innmind\StackTrace\{
     CallFrames,
     CallFrame,
 };
-use Innmind\Immutable\StreamInterface;
+use Innmind\Immutable\Sequence;
 use PHPUnit\Framework\TestCase;
 
 class CallFramesTest extends TestCase
@@ -21,17 +21,17 @@ class CallFramesTest extends TestCase
             $frames = CallFrames::of($e);
         }
 
-        $this->assertInstanceOf(StreamInterface::class, $frames);
-        $this->assertSame(CallFrame::class, (string) $frames->type());
+        $this->assertInstanceOf(Sequence::class, $frames);
+        $this->assertSame(CallFrame::class, $frames->type());
         $this->assertCount(17, $frames);
-        $this->assertInstanceOf(CallFrame\MethodCall::class, $frames[0]);
-        $this->assertInstanceOf(CallFrame\FunctionCall::class, $frames[1]);
-        $this->assertInstanceOf(CallFrame\InternalFunctionCall::class, $frames[2]);
-        $this->assertInstanceOf(CallFrame\FunctionCall::class, $frames[3]);
-        $this->assertInstanceOf(CallFrame\StaticMethodCall::class, $frames[4]);
-        $this->assertInstanceOf(CallFrame\InternalStaticMethodCall::class, $frames[5]);
-        $this->assertInstanceOf(CallFrame\MethodCall::class, $frames[6]);
-        $this->assertInstanceOf(CallFrame\MethodCall::class, $frames[7]);
+        $this->assertInstanceOf(CallFrame\MethodCall::class, $frames->get(0));
+        $this->assertInstanceOf(CallFrame\FunctionCall::class, $frames->get(1));
+        $this->assertInstanceOf(CallFrame\InternalFunctionCall::class, $frames->get(2));
+        $this->assertInstanceOf(CallFrame\FunctionCall::class, $frames->get(3));
+        $this->assertInstanceOf(CallFrame\StaticMethodCall::class, $frames->get(4));
+        $this->assertInstanceOf(CallFrame\InternalStaticMethodCall::class, $frames->get(5));
+        $this->assertInstanceOf(CallFrame\MethodCall::class, $frames->get(6));
+        $this->assertInstanceOf(CallFrame\MethodCall::class, $frames->get(7));
     }
 
     public static function refl()

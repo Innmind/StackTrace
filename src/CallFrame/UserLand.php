@@ -7,10 +7,10 @@ use Innmind\StackTrace\{
     CallFrame,
     Line,
 };
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 
 interface UserLand extends CallFrame
 {
-    public function file(): UrlInterface;
+    public function file(): Url;
     public function line(): Line;
 }

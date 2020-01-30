@@ -7,10 +7,7 @@ use Innmind\StackTrace\{
     CallFrame,
     FunctionName,
 };
-use Innmind\Immutable\{
-    SequenceInterface,
-    Sequence,
-};
+use Innmind\Immutable\Sequence;
 
 /**
  * Function called within language function (ie: array_map) or by reflection
@@ -23,7 +20,7 @@ final class InternalFunctionCall implements CallFrame
     public function __construct(FunctionName $functionName, ...$arguments)
     {
         $this->functionName = $functionName;
-        $this->arguments = Sequence::of(...$arguments);
+        $this->arguments = Sequence::mixed(...$arguments);
     }
 
     public function functionName(): FunctionName
@@ -31,7 +28,7 @@ final class InternalFunctionCall implements CallFrame
         return $this->functionName;
     }
 
-    public function arguments(): SequenceInterface
+    public function arguments(): Sequence
     {
         return $this->arguments;
     }

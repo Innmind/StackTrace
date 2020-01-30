@@ -4,17 +4,14 @@ declare(strict_types = 1);
 namespace Innmind\StackTrace;
 
 use Innmind\Url\Url;
-use Innmind\Immutable\{
-    StreamInterface,
-    Stream,
-};
+use Innmind\Immutable\Sequence;
 
 final class CallFrames
 {
     /**
-     * @return StreamInterface<CallFrame>
+     * @return Sequence<CallFrame>
      */
-    public static function of(\Throwable $throwable): StreamInterface
+    public static function of(\Throwable $throwable): Sequence
     {
         $frames = [];
 
@@ -27,7 +24,7 @@ final class CallFrames
                 self::internalFunctionCall($frame);
         }
 
-        return Stream::of(CallFrame::class, ...$frames);
+        return Sequence::of(CallFrame::class, ...$frames);
     }
 
     private static function methodCall(array $frame): ?CallFrame
@@ -47,7 +44,7 @@ final class CallFrames
         return new CallFrame\MethodCall(
             new ClassName($frame['class']),
             new Method($frame['function']),
-            Url::fromString('file://'.$frame['file']),
+            Url::of('file://'.$frame['file']),
             new Line($frame['line']),
             ...$frame['args']
         );
@@ -70,7 +67,7 @@ final class CallFrames
         return new CallFrame\StaticMethodCall(
             new ClassName($frame['class']),
             new Method($frame['function']),
-            Url::fromString('file://'.$frame['file']),
+            Url::of('file://'.$frame['file']),
             new Line($frame['line']),
             ...$frame['args']
         );
@@ -118,7 +115,7 @@ final class CallFrames
 
         return new CallFrame\FunctionCall(
             new FunctionName($frame['function']),
-            Url::fromString('file://'.$frame['file']),
+            Url::of('file://'.$frame['file']),
             new Line($frame['line']),
             ...$frame['args']
         );
