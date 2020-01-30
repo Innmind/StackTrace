@@ -43,13 +43,11 @@ final class Render
             $this->renderNodes($stack);
             $this->renderLinks($stack);
 
-            $graph = $this->nodes->values()->reduce(
-                Graph\Graph::directed('stack_trace'),
-                static function(Graph $graph, Node $node): Graph {
+            $graph = Graph\Graph::directed('stack_trace');
+            $this->nodes->values()->foreach(
+                static function(Node $node) use ($graph): void {
                     $graph->add($node);
-
-                    return $graph;
-                }
+                },
             );
             $graph->cluster($this->throwables);
             $graph->cluster($this->callFrames);
@@ -92,7 +90,7 @@ final class Render
 
         $this->add(
             $this->hashThrowable($e),
-            $node
+            $node,
         );
         /** @psalm-suppress PossiblyNullReference */
         $this->throwables->add(new Node\Node($node->name()));
@@ -131,7 +129,7 @@ final class Render
                     $this->linkCausality($previous, $e);
 
                     return $previous;
-                }
+                },
             );
 
         $stack
@@ -163,7 +161,7 @@ final class Render
             ->nodes
             ->get($this->hashThrowable($e))
             ->linkedTo(
-                $this->nodes->get($this->hashFrame($source))
+                $this->nodes->get($this->hashFrame($source)),
             );
         $edge->displayAs("{$e->file()->path()->toString()}:{$e->line()->toString()}");
         $edge->target(($this->link)($e->file(), $e->line()));
@@ -191,13 +189,13 @@ final class Render
                     }
 
                     return $parent;
-                }
+                },
             );
     }
 
     private function add(string $reference, Node $node): void
     {
-        $this->nodes = $this->nodes->put($reference, $node);
+        $this->nodes = ($this->nodes)($reference, $node);
     }
 
     /**
