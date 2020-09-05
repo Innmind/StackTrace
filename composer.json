@@ -35,7 +35,7 @@
         "giorgiosironi/eris": "^0.11.0",
         "innmind/file-watch": "~2.0",
         "innmind/operating-system": "^2.0",
-        "vimeo/psalm": "~3.7.0"
+        "vimeo/psalm": "^3.7"
     },
     "scripts": {
         "test": "vendor/bin/phpunit --colors=always"
