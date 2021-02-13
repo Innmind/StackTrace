@@ -8,19 +8,19 @@ use Innmind\StackTrace\{
     Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
-use Eris\{
-    Generator,
-    TestTrait,
+use Innmind\BlackBox\{
+    PHPUnit\BlackBox,
+    Set,
 };
 
 class LineTest extends TestCase
 {
-    use TestTrait;
+    use BlackBox;
 
     public function testInterface()
     {
         $this
-            ->forAll(Generator\pos())
+            ->forAll(Set\Integers::above(0))
             ->then(function(int $int): void {
                 $this->assertSame($int, (new Line($int))->toInt());
                 $this->assertSame((string) $int, (new Line($int))->toString());
@@ -37,7 +37,7 @@ class LineTest extends TestCase
     public function testThrowWhenNegativeValue()
     {
         $this
-            ->forAll(Generator\neg())
+            ->forAll(Set\Integers::below(1))
             ->then(function(int $int): void {
                 $this->expectException(DomainException::class);
 
