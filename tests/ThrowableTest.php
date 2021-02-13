@@ -39,7 +39,7 @@ class ThrowableTest extends TestCase
             $e->getTraceAsString(),
             join("\n", $throwable->trace()->mapTo(
                 'string',
-                fn($line) => $line->toString(),
+                static fn($line) => $line->toString(),
             ))->toString(),
         );
         $this->assertInstanceOf(Sequence::class, $throwable->callFrames());

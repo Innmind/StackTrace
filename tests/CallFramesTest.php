@@ -41,9 +41,10 @@ class CallFramesTest extends TestCase
 
     public static function staticCall()
     {
-        if (!function_exists('\Tests\Innmind\StackTrace\foo')) {
-            function foo(callable $x) {
-                (function($x){$x();})($x);
+        if (!\function_exists('\Tests\Innmind\StackTrace\foo')) {
+            function foo(callable $x)
+            {
+                (static function($x) {$x(); })($x);
             }
         }
 
@@ -55,6 +56,6 @@ class CallFramesTest extends TestCase
         };
         $a = [$callable];
 
-        array_walk($a, '\Tests\Innmind\StackTrace\foo');
+        \array_walk($a, '\Tests\Innmind\StackTrace\foo');
     }
 }

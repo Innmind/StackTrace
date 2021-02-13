@@ -35,6 +35,7 @@
         "innmind/file-watch": "~2.0",
         "innmind/operating-system": "^2.0",
         "vimeo/psalm": "~4.4",
-        "innmind/black-box": "^4.16"
+        "innmind/black-box": "^4.16",
+        "innmind/coding-standard": "^1.1"
     }
 }
