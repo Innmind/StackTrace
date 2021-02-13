@@ -1,9 +1,8 @@
 # StackTrace
 
-| `develop` |
-|-----------|
-| [![codecov](https://codecov.io/gh/Innmind/StackTrace/branch/develop/graph/badge.svg)](https://codecov.io/gh/Innmind/StackTrace) |
-| [![Build Status](https://github.com/Innmind/StackTrace/workflows/CI/badge.svg)](https://github.com/Innmind/StackTrace/actions?query=workflow%3ACI) |
+[![Build Status](https://github.com/innmind/stacktrace/workflows/CI/badge.svg?branch=master)](https://github.com/innmind/stacktrace/actions?query=workflow%3ACI)
+[![codecov](https://codecov.io/gh/innmind/stacktrace/branch/develop/graph/badge.svg)](https://codecov.io/gh/innmind/stacktrace)
+[![Type Coverage](https://shepherd.dev/github/innmind/stacktrace/coverage.svg)](https://shepherd.dev/github/innmind/stacktrace)
 
 Tool to inspect an Exception stack trace
 

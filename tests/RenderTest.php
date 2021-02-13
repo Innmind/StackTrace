@@ -28,6 +28,6 @@ class RenderTest extends TestCase
 
         $this->assertInstanceOf(Readable::class, $graph);
         $this->assertNotEmpty($graph->toString());
-        file_put_contents('graph.dot', $graph->toString());
+        \file_put_contents('graph.dot', $graph->toString());
     }
 }

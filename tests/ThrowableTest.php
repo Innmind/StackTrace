@@ -34,16 +34,16 @@ class ThrowableTest extends TestCase
         $this->assertSame(24, $throwable->line()->toInt());
         $this->assertInstanceOf(Sequence::class, $throwable->trace());
         $this->assertSame(Str::class, $throwable->trace()->type());
-        $this->assertCount(11, $throwable->trace());
+        $this->assertCount(12, $throwable->trace());
         $this->assertSame(
             $e->getTraceAsString(),
             join("\n", $throwable->trace()->mapTo(
                 'string',
-                fn($line) => $line->toString(),
+                static fn($line) => $line->toString(),
             ))->toString(),
         );
         $this->assertInstanceOf(Sequence::class, $throwable->callFrames());
         $this->assertSame(CallFrame::class, $throwable->callFrames()->type());
-        $this->assertCount(10, $throwable->callFrames());
+        $this->assertCount(11, $throwable->callFrames());
     }
 }

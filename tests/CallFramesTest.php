@@ -23,7 +23,7 @@ class CallFramesTest extends TestCase
 
         $this->assertInstanceOf(Sequence::class, $frames);
         $this->assertSame(CallFrame::class, $frames->type());
-        $this->assertCount(17, $frames);
+        $this->assertCount(18, $frames);
         $this->assertInstanceOf(CallFrame\MethodCall::class, $frames->get(0));
         $this->assertInstanceOf(CallFrame\FunctionCall::class, $frames->get(1));
         $this->assertInstanceOf(CallFrame\InternalFunctionCall::class, $frames->get(2));
@@ -41,9 +41,10 @@ class CallFramesTest extends TestCase
 
     public static function staticCall()
     {
-        if (!function_exists('\Tests\Innmind\StackTrace\foo')) {
-            function foo(callable $x) {
-                (function($x){$x();})($x);
+        if (!\function_exists('\Tests\Innmind\StackTrace\foo')) {
+            function foo(callable $x)
+            {
+                (static function($x) {$x(); })($x);
             }
         }
 
@@ -55,6 +56,6 @@ class CallFramesTest extends TestCase
         };
         $a = [$callable];
 
-        array_walk($a, '\Tests\Innmind\StackTrace\foo');
+        \array_walk($a, '\Tests\Innmind\StackTrace\foo');
     }
 }
