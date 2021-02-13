@@ -36,8 +36,5 @@
         "innmind/file-watch": "~2.0",
         "innmind/operating-system": "^2.0",
         "vimeo/psalm": "~4.4"
-    },
-    "scripts": {
-        "test": "vendor/bin/phpunit --colors=always"
     }
 }
