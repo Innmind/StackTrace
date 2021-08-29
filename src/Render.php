@@ -46,9 +46,7 @@ final class Render
 
             $graph = Graph\Graph::directed('stack_trace');
             $_ = $this->nodes->values()->foreach(
-                static function(Node $node) use ($graph): void {
-                    $graph->add($node);
-                },
+                static fn($node) => $graph->add($node),
             );
             $graph->cluster($this->throwables);
             $graph->cluster($this->callFrames);
@@ -69,11 +67,9 @@ final class Render
             ->foreach(function(Throwable $e): void {
                 $this->renderThrowable($e);
 
-                $_ = $e
-                    ->callFrames()
-                    ->foreach(function(CallFrame $frame): void {
-                        $this->renderCallFrame($frame);
-                    });
+                $_ = $e->callFrames()->foreach(
+                    fn(CallFrame $frame) => $this->renderCallFrame($frame),
+                );
             });
     }
 
