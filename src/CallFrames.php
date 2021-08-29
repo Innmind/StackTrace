@@ -28,7 +28,7 @@ final class CallFrames
         }
 
         /** @var Sequence<CallFrame> */
-        return Sequence::of(CallFrame::class, ...$frames);
+        return Sequence::of(...$frames);
     }
 
     /**
@@ -53,7 +53,7 @@ final class CallFrames
             new Method($frame['function']),
             Url::of('file://'.$frame['file']),
             new Line($frame['line']),
-            ...$frame['args'] ?? [],
+            ...\array_values($frame['args'] ?? []),
         );
     }
 
@@ -79,7 +79,7 @@ final class CallFrames
             new Method($frame['function']),
             Url::of('file://'.$frame['file']),
             new Line($frame['line']),
-            ...$frame['args'] ?? [],
+            ...\array_values($frame['args'] ?? []),
         );
     }
 
@@ -99,7 +99,7 @@ final class CallFrames
         return new CallFrame\InternalMethodCall(
             new ClassName($frame['class']),
             new Method($frame['function']),
-            ...$frame['args'] ?? [],
+            ...\array_values($frame['args'] ?? []),
         );
     }
 
@@ -119,7 +119,7 @@ final class CallFrames
         return new CallFrame\InternalStaticMethodCall(
             new ClassName($frame['class']),
             new Method($frame['function']),
-            ...$frame['args'] ?? [],
+            ...\array_values($frame['args'] ?? []),
         );
     }
 
@@ -136,7 +136,7 @@ final class CallFrames
             new FunctionName($frame['function']),
             Url::of('file://'.$frame['file']),
             new Line($frame['line']),
-            ...$frame['args'] ?? [],
+            ...\array_values($frame['args'] ?? []),
         );
     }
 
@@ -147,7 +147,7 @@ final class CallFrames
     {
         return new CallFrame\InternalFunctionCall(
             new FunctionName($frame['function']),
-            ...$frame['args'] ?? [],
+            ...\array_values($frame['args'] ?? []),
         );
     }
 }

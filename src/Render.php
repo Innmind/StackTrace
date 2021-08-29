@@ -14,6 +14,7 @@ use Innmind\Colour\Colour;
 use Innmind\Immutable\{
     Map,
     Str,
+    Maybe,
 };
 
 final class Render
@@ -28,7 +29,7 @@ final class Render
     {
         $this->link = $link ?? new Link\ToFile;
         /** @var Map<string, Node> */
-        $this->nodes = Map::of('string', Node::class);
+        $this->nodes = Map::of();
     }
 
     public function __invoke(StackTrace $stack): Readable
@@ -44,7 +45,7 @@ final class Render
             $this->renderLinks($stack);
 
             $graph = Graph\Graph::directed('stack_trace');
-            $this->nodes->values()->foreach(
+            $_ = $this->nodes->values()->foreach(
                 static function(Node $node) use ($graph): void {
                     $graph->add($node);
                 },
@@ -62,13 +63,13 @@ final class Render
 
     private function renderNodes(StackTrace $stack): void
     {
-        $stack
+        $_ = $stack
             ->previous()
             ->add($stack->throwable())
             ->foreach(function(Throwable $e): void {
                 $this->renderThrowable($e);
 
-                $e
+                $_ = $e
                     ->callFrames()
                     ->foreach(function(CallFrame $frame): void {
                         $this->renderCallFrame($frame);
@@ -85,7 +86,7 @@ final class Render
             $e->code(),
             $e->message()->toString(),
         ));
-        $node->shaped(Shape::doubleoctagon()->fillWithColor(Colour::literals()->get('red')));
+        $node->shaped(Shape::doubleoctagon()->fillWithColor(Colour::of('red')->toRGBA()));
         $node->target(($this->link)($e->file(), $e->line()));
 
         $this->add(
@@ -108,7 +109,7 @@ final class Render
 
         $node = Node\Node::named('call_frame_'.\md5($hash));
         $node->displayAs($name);
-        $node->shaped(Shape::box()->fillWithColor(Colour::literals()->get('orange')));
+        $node->shaped(Shape::box()->fillWithColor(Colour::of('orange')->toRGBA()));
 
         if ($frame instanceof CallFrame\UserLand) {
             $node->target(($this->link)($frame->file(), $frame->line()));
@@ -121,7 +122,7 @@ final class Render
 
     private function renderLinks(StackTrace $stack): void
     {
-        $stack
+        $_ = $stack
             ->previous()
             ->reduce(
                 $stack->throwable(),
@@ -132,7 +133,7 @@ final class Render
                 },
             );
 
-        $stack
+        $_ = $stack
             ->previous()
             ->add($stack->throwable())
             ->foreach(function(Throwable $e): void {
@@ -145,9 +146,12 @@ final class Render
         $consequence = $this->nodes->get($this->hashThrowable($consequence));
         $cause = $this->nodes->get($this->hashThrowable($cause));
 
-        $consequence
-            ->linkedTo($cause)
-            ->displayAs('Caused By');
+        $_ = Maybe::all($consequence, $cause)
+            ->map(static fn(Node $consequence, Node $cause) => $consequence->linkedTo($cause))
+            ->match(
+                static fn($edge) => $edge->displayAs('Caused By'),
+                static fn() => null,
+            );
     }
 
     private function linkCallFrames(Throwable $e): void
@@ -156,24 +160,39 @@ final class Render
             return;
         }
 
-        $source = $e->callFrames()->first();
-        $edge = $this
-            ->nodes
-            ->get($this->hashThrowable($e))
-            ->linkedTo(
-                $this->nodes->get($this->hashFrame($source)),
+        $source = $e
+            ->callFrames()
+            ->first()
+            ->match(
+                static fn($source) => $source,
+                static fn() => throw new \LogicException('CallFrame not found'),
+            );
+        $edge = Maybe::all(
+            $this->nodes->get($this->hashThrowable($e)),
+            $this->nodes->get($this->hashFrame($source)),
+        )
+            ->map(static fn(Node $node, Node $source) => $node->linkedTo($source))
+            ->match(
+                static fn($edge) => $edge,
+                static fn() => throw new \LogicException('Nodes not found'),
             );
         $edge->displayAs("{$e->file()->path()->toString()}:{$e->line()->toString()}");
         $edge->target(($this->link)($e->file(), $e->line()));
 
-        $e
+        $_ = $e
             ->callFrames()
             ->drop(1)
             ->reduce(
                 $source,
                 function(CallFrame $frame, CallFrame $parent): CallFrame {
-                    $frameNode = $this->nodes->get($this->hashFrame($frame));
-                    $parentNode = $this->nodes->get($this->hashFrame($parent));
+                    $frameNode = $this->nodes->get($this->hashFrame($frame))->match(
+                        static fn($node) => $node,
+                        static fn() => throw new \LogicException('Node not found'),
+                    );
+                    $parentNode = $this->nodes->get($this->hashFrame($parent))->match(
+                        static fn($node) => $node,
+                        static fn() => throw new \LogicException('Node not found'),
+                    );
 
                     if (!$parentNode->edges()->empty()) {
                         // don't add a link if one already present as it would

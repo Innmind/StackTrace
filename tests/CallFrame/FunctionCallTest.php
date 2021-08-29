@@ -12,7 +12,6 @@ use Innmind\StackTrace\{
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\Sequence;
-use function Innmind\Immutable\unwrap;
 use PHPUnit\Framework\TestCase;
 
 class FunctionCallTest extends TestCase
@@ -33,7 +32,7 @@ class FunctionCallTest extends TestCase
         $this->assertSame($file, $frame->file());
         $this->assertSame($line, $frame->line());
         $this->assertInstanceOf(Sequence::class, $frame->arguments());
-        $this->assertSame(['foo', 'bar'], unwrap($frame->arguments()));
+        $this->assertSame(['foo', 'bar'], $frame->arguments()->toList());
         $this->assertSame('foo()', $frame->toString());
     }
 }

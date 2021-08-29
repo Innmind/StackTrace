@@ -20,6 +20,7 @@ final class StaticMethodCall implements UserLand
     private Sequence $arguments;
 
     /**
+     * @no-named-arguments
      * @param mixed $arguments
      */
     public function __construct(

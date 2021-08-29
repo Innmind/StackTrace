@@ -20,6 +20,7 @@ final class InternalMethodCall implements CallFrame
     private Sequence $arguments;
 
     /**
+     * @no-named-arguments
      * @param mixed $arguments
      */
     public function __construct(
