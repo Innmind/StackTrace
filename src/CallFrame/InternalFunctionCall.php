@@ -11,6 +11,7 @@ use Innmind\Immutable\Sequence;
 
 /**
  * Function called within language function (ie: array_map) or by reflection
+ * @psalm-immutable
  */
 final class InternalFunctionCall implements CallFrame
 {
@@ -19,6 +20,7 @@ final class InternalFunctionCall implements CallFrame
 
     /**
      * @no-named-arguments
+     *
      * @param mixed $arguments
      */
     public function __construct(FunctionName $functionName, ...$arguments)

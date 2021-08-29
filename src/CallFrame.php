@@ -5,6 +5,9 @@ namespace Innmind\StackTrace;
 
 use Innmind\Immutable\Sequence;
 
+/**
+ * @psalm-immutable
+ */
 interface CallFrame
 {
     public function arguments(): Sequence;

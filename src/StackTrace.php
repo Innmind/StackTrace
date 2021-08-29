@@ -5,6 +5,9 @@ namespace Innmind\StackTrace;
 
 use Innmind\Immutable\Sequence;
 
+/**
+ * @psalm-immutable
+ */
 final class StackTrace
 {
     private Throwable $throwable;

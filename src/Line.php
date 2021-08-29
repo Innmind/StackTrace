@@ -5,6 +5,9 @@ namespace Innmind\StackTrace;
 
 use Innmind\StackTrace\Exception\DomainException;
 
+/**
+ * @psalm-immutable
+ */
 final class Line
 {
     private int $value;

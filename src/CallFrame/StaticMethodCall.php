@@ -11,6 +11,9 @@ use Innmind\StackTrace\{
 use Innmind\Url\Url;
 use Innmind\Immutable\Sequence;
 
+/**
+ * @psalm-immutable
+ */
 final class StaticMethodCall implements UserLand
 {
     private ClassName $class;
@@ -21,6 +24,7 @@ final class StaticMethodCall implements UserLand
 
     /**
      * @no-named-arguments
+     *
      * @param mixed $arguments
      */
     public function __construct(

@@ -9,6 +9,8 @@ use Innmind\Immutable\Sequence;
 final class CallFrames
 {
     /**
+     * @psalm-pure
+     *
      * @return Sequence<CallFrame>
      */
     public static function of(\Throwable $throwable): Sequence
@@ -32,6 +34,8 @@ final class CallFrames
     }
 
     /**
+     * @psalm-pure
+     *
      * @param array{class?: string, type: string, file?: string, function: string, file: string, line: int, args?: array} $frame
      */
     private static function methodCall(array $frame): ?CallFrame
@@ -58,6 +62,8 @@ final class CallFrames
     }
 
     /**
+     * @psalm-pure
+     *
      * @param array{class?: string, type: string, file?: string, function: string, line: int, args?: array} $frame
      */
     private static function staticMethodCall(array $frame): ?CallFrame
@@ -84,6 +90,8 @@ final class CallFrames
     }
 
     /**
+     * @psalm-pure
+     *
      * @param array{class?: string, type: string, function: string, args?: array} $frame
      */
     private static function internalMethodCall(array $frame): ?CallFrame
@@ -104,6 +112,8 @@ final class CallFrames
     }
 
     /**
+     * @psalm-pure
+     *
      * @param array{class?: string, type: string, function: string, args?: array} $frame
      */
     private static function internalStaticMethodCall(array $frame): ?CallFrame
@@ -124,6 +134,8 @@ final class CallFrames
     }
 
     /**
+     * @psalm-pure
+     *
      * @param array{file?: string, function: string, file: string, line: int, args?: array}  $frame
      */
     private static function functionCall(array $frame): ?CallFrame
@@ -141,6 +153,8 @@ final class CallFrames
     }
 
     /**
+     * @psalm-pure
+     *
      * @param array{function: string, args?: array} $frame
      */
     private static function internalFunctionCall(array $frame): CallFrame
