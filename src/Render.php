@@ -39,10 +39,12 @@ final class Render
         );
         $thrown = $this->linkCausality($thrown, $stack);
         $callFrames = $this->callFrames(
+            $this->link,
             Graph::directed('call_frames')->displayAs('Stack Trace'),
             $stack,
         );
         $graph = $this->linkSources(
+            $this->link,
             Graph::directed('stack_trace'),
             $stack,
         );
@@ -124,8 +126,11 @@ final class Render
      *
      * @return Graph<'directed'>
      */
-    private function callFrames(Graph $callFrames, StackTrace $stack): Graph
-    {
+    private function callFrames(
+        Link $link,
+        Graph $callFrames,
+        StackTrace $stack,
+    ): Graph {
         $frames = $stack
             ->previous()
             ->add($stack->throwable())
@@ -148,7 +153,7 @@ final class Render
                 static fn() => $stack->throwable(),
             );
 
-        return $this->linkCallFrames($callFrames, $deepest);
+        return $this->linkCallFrames($link, $callFrames, $deepest);
     }
 
     /**
@@ -174,8 +179,11 @@ final class Render
      *
      * @return Graph<'directed'>
      */
-    private function linkCallFrames(Graph $callFrames, Throwable $e): Graph
-    {
+    private function linkCallFrames(
+        Link $link,
+        Graph $callFrames,
+        Throwable $e,
+    ): Graph {
         $remaining = $e->callFrames();
 
         while (!$remaining->empty()) {
@@ -188,7 +196,7 @@ final class Render
                 ->map(fn(CallFrame $top, CallFrame $bottom) => $callFrames->add(
                     $this->node($top)->linkedTo(
                         $this->nodeName($bottom),
-                        fn($edge) => $this->configureEdge($edge, $top),
+                        static fn($edge) => self::configureEdge($link, $edge, $top),
                     ),
                 ))
                 ->match(
@@ -205,14 +213,24 @@ final class Render
      *
      * @return Graph<'directed'>
      */
-    private function linkSources(Graph $graph, StackTrace $stack): Graph
+    private function linkSources(Link $link, Graph $graph, StackTrace $stack): Graph
     {
+        /**
+         * @psalm-suppress InvalidArgument
+         * @var callable(Graph<'directed'>, Throwable): Graph<'directed'>
+         */
+        $reducer = fn(Graph $graph, Throwable $e): Graph => $this->linkSource(
+            $link,
+            $graph,
+            $e,
+        );
+
         return $stack
             ->previous()
             ->add($stack->throwable())
             ->reduce(
                 $graph,
-                $this->linkSource(...),
+                $reducer,
             );
     }
 
@@ -221,7 +239,7 @@ final class Render
      *
      * @return Graph<'directed'>
      */
-    private function linkSource(Graph $graph, Throwable $e): Graph
+    private function linkSource(Link $link, Graph $graph, Throwable $e): Graph
     {
         return $e
             ->callFrames()
@@ -230,9 +248,9 @@ final class Render
                 fn($frame) => $graph->add(
                     $this->node($e)->linkedTo(
                         $this->nodeName($frame),
-                        fn($edge) => $edge
+                        static fn($edge) => $edge
                             ->displayAs("{$e->file()->path()->toString()}:{$e->line()->toString()}")
-                            ->target(($this->link)($e->file(), $e->line())),
+                            ->target($link($e->file(), $e->line())),
                     ),
                 ),
                 static fn() => $graph,
@@ -280,7 +298,10 @@ final class Render
         return Node\Name::of('call_frame_'.\md5($this->hashFrame($reference)));
     }
 
-    private function configureEdge(Edge $edge, CallFrame $frame): Edge
+    /**
+     * @psalm-pure
+     */
+    private static function configureEdge(Link $link, Edge $edge, CallFrame $frame): Edge
     {
         if (!$frame instanceof CallFrame\UserLand) {
             return $edge;
@@ -288,6 +309,6 @@ final class Render
 
         return $edge
             ->displayAs("{$frame->file()->path()->toString()}:{$frame->line()->toString()}")
-            ->target(($this->link)($frame->file(), $frame->line()));
+            ->target($link($frame->file(), $frame->line()));
     }
 }
