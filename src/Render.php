@@ -5,212 +5,238 @@ namespace Innmind\StackTrace;
 
 use Innmind\Graphviz\{
     Graph,
+    Edge,
     Node,
     Node\Shape,
     Layout\Dot,
 };
-use Innmind\Stream\Readable;
+use Innmind\Filesystem\File\Content;
 use Innmind\Colour\Colour;
 use Innmind\Immutable\{
     Map,
     Str,
     Maybe,
+    Sequence,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class Render
 {
-    /** @var Map<string, Node> */
-    private Map $nodes;
-    private ?Graph $throwables = null;
-    private ?Graph $callFrames = null;
     private Link $link;
 
     public function __construct(Link $link = null)
     {
         $this->link = $link ?? new Link\ToFile;
-        /** @var Map<string, Node> */
-        $this->nodes = Map::of();
     }
 
-    public function __invoke(StackTrace $stack): Readable
+    public function __invoke(StackTrace $stack): Content
     {
-        try {
-            $this->nodes = $this->nodes->clear();
-            $this->throwables = Graph\Graph::directed('throwables');
-            $this->throwables->displayAs('Thrown');
-            $this->callFrames = Graph\Graph::directed('call_frames');
-            $this->callFrames->displayAs('Stack Trace');
+        $thrown = $this->thrown(
+            Graph::directed('throwables')->displayAs('Thrown'),
+            $stack,
+        );
+        $thrown = $this->linkCausality($thrown, $stack);
+        $callFrames = $this->callFrames(
+            Graph::directed('call_frames')->displayAs('Stack Trace'),
+            $stack,
+        );
+        $graph = $this->linkSources(
+            Graph::directed('stack_trace'),
+            $stack,
+        );
 
-            $this->renderNodes($stack);
-            $this->renderLinks($stack);
-
-            $graph = Graph\Graph::directed('stack_trace');
-            $_ = $this->nodes->values()->foreach(
-                static fn($node) => $graph->add($node),
-            );
-            $graph->cluster($this->throwables);
-            $graph->cluster($this->callFrames);
-
-            return (new Dot)($graph);
-        } finally {
-            $this->nodes = $this->nodes->clear();
-            $this->throwables = null;
-            $this->callFrames = null;
-        }
+        return Dot::of()(
+            $graph
+                ->cluster($thrown)
+                ->cluster($callFrames),
+        );
     }
 
-    private function renderNodes(StackTrace $stack): void
+    /**
+     * @param Graph<'directed'> $thrown
+     *
+     * @return Graph<'directed'>
+     */
+    private function thrown(Graph $thrown, StackTrace $stack): Graph
     {
-        $_ = $stack
+        return $stack
             ->previous()
             ->add($stack->throwable())
-            ->foreach(function(Throwable $e): void {
-                $this->renderThrowable($e);
-
-                $_ = $e->callFrames()->foreach(
-                    fn(CallFrame $frame) => $this->renderCallFrame($frame),
-                );
-            });
+            ->reduce($thrown, $this->throwable(...));
     }
 
-    private function renderThrowable(Throwable $e): void
+    /**
+     * @param Graph<'directed'> $thrown
+     *
+     * @return Graph<'directed'>
+     */
+    private function throwable(Graph $thrown, Throwable $e): Graph
     {
-        $node = Node\Node::named('exception_'.$this->hashThrowable($e));
-        $node->displayAs(\sprintf(
-            '%s[%s](%s)',
-            $this->clean($e->class()->toString()),
-            $e->code(),
-            $e->message()->toString(),
-        ));
-        $node->shaped(Shape::doubleoctagon()->fillWithColor(Colour::of('red')->toRGBA()));
-        $node->target(($this->link)($e->file(), $e->line()));
-
-        $this->add(
-            $this->hashThrowable($e),
-            $node,
+        return $thrown->add(
+            $this
+                ->node($e)
+                ->displayAs(\sprintf(
+                    '%s[%s](%s)',
+                    $this->clean($e->class()->toString()),
+                    $e->code(),
+                    $e->message()->toString(),
+                ))
+                ->shaped(Shape::doubleoctagon()->fillWithColor(Colour::red->toRGBA()))
+                ->target(($this->link)($e->file(), $e->line())),
         );
-        /** @psalm-suppress PossiblyNullReference */
-        $this->throwables->add(new Node\Node($node->name()));
     }
 
-    private function renderCallFrame(CallFrame $frame): void
+    /**
+     * @param Graph<'directed'> $thrown
+     *
+     * @return Graph<'directed'>
+     */
+    private function linkCausality(Graph $thrown, StackTrace $stack): Graph
     {
-        $hash = $this->hashFrame($frame);
+        $remaining = Sequence::of($stack->throwable())->append($stack->previous());
 
-        if ($this->nodes->contains($hash)) {
-            return;
-        }
+        do {
+            [$top, $remaining] = $remaining->match(
+                static fn($first, $remaining) => [Maybe::just($first), $remaining],
+                static fn() => [Maybe::nothing(), Sequence::of()],
+            );
 
-        $name = $this->clean($frame->toString());
+            $thrown = Maybe::all($top, $remaining->first())
+                ->map(fn(Throwable $top, Throwable $bottom) => $thrown->add(
+                    $this->node($top)->linkedTo(
+                        $this->nodeName($bottom),
+                        static fn($edge) => $edge->displayAs('Caused by'),
+                    ),
+                ))
+                ->match(
+                    static fn($thrown) => $thrown,
+                    static fn() => $thrown,
+                );
+        } while (!$remaining->empty());
 
-        $node = Node\Node::named('call_frame_'.\md5($hash));
-        $node->displayAs($name);
-        $node->shaped(Shape::box()->fillWithColor(Colour::of('orange')->toRGBA()));
+        return $thrown;
+    }
+
+    /**
+     * @param Graph<'directed'> $callFrames
+     *
+     * @return Graph<'directed'>
+     */
+    private function callFrames(Graph $callFrames, StackTrace $stack): Graph
+    {
+        $frames = $stack
+            ->previous()
+            ->add($stack->throwable())
+            ->map(static fn($e) => $e->callFrames())
+            ->flatMap(static fn($frames) => $frames)
+            ->map(fn($frame) => [
+                $this->hashFrame($frame),
+                $frame,
+            ])
+            ->toList();
+
+        $frames = Map::of(...$frames)->values();
+        $callFrames = $frames->reduce($callFrames, $this->callFrame(...));
+
+        $deepest = $stack
+            ->previous()
+            ->last()
+            ->match(
+                static fn($deepest) => $deepest,
+                static fn() => $stack->throwable(),
+            );
+
+        return $this->linkCallFrames($callFrames, $deepest);
+    }
+
+    /**
+     * @param Graph<'directed'> $callFrames
+     *
+     * @return Graph<'directed'>
+     */
+    private function callFrame(Graph $callFrames, CallFrame $frame): Graph
+    {
+        $node = Node::of($this->nodeName($frame))
+            ->displayAs($this->clean($frame->toString()))
+            ->shaped(Shape::box()->fillWithColor(Colour::orange->toRGBA()));
 
         if ($frame instanceof CallFrame\UserLand) {
-            $node->target(($this->link)($frame->file(), $frame->line()));
+            $node = $node->target(($this->link)($frame->file(), $frame->line()));
         }
 
-        $this->add($hash, $node);
-        /** @psalm-suppress PossiblyNullReference */
-        $this->callFrames->add(new Node\Node($node->name()));
+        return $callFrames->add($node);
     }
 
-    private function renderLinks(StackTrace $stack): void
+    /**
+     * @param Graph<'directed'> $callFrames
+     *
+     * @return Graph<'directed'>
+     */
+    private function linkCallFrames(Graph $callFrames, Throwable $e): Graph
     {
-        $_ = $stack
-            ->previous()
-            ->reduce(
-                $stack->throwable(),
-                function(Throwable $e, Throwable $previous): Throwable {
-                    $this->linkCausality($previous, $e);
+        $remaining = $e->callFrames();
 
-                    return $previous;
-                },
+        while (!$remaining->empty()) {
+            [$first, $remaining] = $remaining->match(
+                static fn($first, $remaining) => [Maybe::just($first), $remaining],
+                static fn() => [Maybe::nothing(), Sequence::of()],
             );
 
-        $_ = $stack
+            $callFrames = Maybe::all($remaining->first(), $first)
+                ->map(fn(CallFrame $top, CallFrame $bottom) => $callFrames->add(
+                    $this->node($top)->linkedTo(
+                        $this->nodeName($bottom),
+                        fn($edge) => $this->configureEdge($edge, $top),
+                    ),
+                ))
+                ->match(
+                    static fn($callFrames) => $callFrames,
+                    static fn() => $callFrames,
+                );
+        }
+
+        return $callFrames;
+    }
+
+    /**
+     * @param Graph<'directed'> $graph
+     *
+     * @return Graph<'directed'>
+     */
+    private function linkSources(Graph $graph, StackTrace $stack): Graph
+    {
+        return $stack
             ->previous()
             ->add($stack->throwable())
-            ->foreach(function(Throwable $e): void {
-                $this->linkCallFrames($e);
-            });
-    }
-
-    private function linkCausality(Throwable $cause, Throwable $consequence): void
-    {
-        $consequence = $this->nodes->get($this->hashThrowable($consequence));
-        $cause = $this->nodes->get($this->hashThrowable($cause));
-
-        $_ = Maybe::all($consequence, $cause)
-            ->map(static fn(Node $consequence, Node $cause) => $consequence->linkedTo($cause))
-            ->match(
-                static fn($edge) => $edge->displayAs('Caused By'),
-                static fn() => null,
+            ->reduce(
+                $graph,
+                $this->linkSource(...),
             );
     }
 
-    private function linkCallFrames(Throwable $e): void
+    /**
+     * @param Graph<'directed'> $graph
+     *
+     * @return Graph<'directed'>
+     */
+    private function linkSource(Graph $graph, Throwable $e): Graph
     {
-        if ($e->callFrames()->empty()) {
-            return;
-        }
-
-        $source = $e
+        return $e
             ->callFrames()
             ->first()
             ->match(
-                static fn($source) => $source,
-                static fn() => throw new \LogicException('CallFrame not found'),
+                fn($frame) => $graph->add(
+                    $this->node($e)->linkedTo(
+                        $this->nodeName($frame),
+                        fn($edge) => $edge
+                            ->displayAs("{$e->file()->path()->toString()}:{$e->line()->toString()}")
+                            ->target(($this->link)($e->file(), $e->line())),
+                    ),
+                ),
+                static fn() => $graph,
             );
-        $edge = Maybe::all(
-            $this->nodes->get($this->hashThrowable($e)),
-            $this->nodes->get($this->hashFrame($source)),
-        )
-            ->map(static fn(Node $node, Node $source) => $node->linkedTo($source))
-            ->match(
-                static fn($edge) => $edge,
-                static fn() => throw new \LogicException('Nodes not found'),
-            );
-        $edge->displayAs("{$e->file()->path()->toString()}:{$e->line()->toString()}");
-        $edge->target(($this->link)($e->file(), $e->line()));
-
-        $_ = $e
-            ->callFrames()
-            ->drop(1)
-            ->reduce(
-                $source,
-                function(CallFrame $frame, CallFrame $parent): CallFrame {
-                    $frameNode = $this->nodes->get($this->hashFrame($frame))->match(
-                        static fn($node) => $node,
-                        static fn() => throw new \LogicException('Node not found'),
-                    );
-                    $parentNode = $this->nodes->get($this->hashFrame($parent))->match(
-                        static fn($node) => $node,
-                        static fn() => throw new \LogicException('Node not found'),
-                    );
-
-                    if (!$parentNode->edges()->empty()) {
-                        // don't add a link if one already present as it would
-                        // happen in the case of an exception triggered another one
-                        return $parent;
-                    }
-
-                    $edge = $parentNode->linkedTo($frameNode);
-
-                    if ($parent instanceof CallFrame\UserLand) {
-                        $edge->displayAs("{$parent->file()->path()->toString()}:{$parent->line()->toString()}");
-                        $edge->target(($this->link)($parent->file(), $parent->line()));
-                    }
-
-                    return $parent;
-                },
-            );
-    }
-
-    private function add(string $reference, Node $node): void
-    {
-        $this->nodes = ($this->nodes)($reference, $node);
     }
 
     /**
@@ -238,5 +264,30 @@ final class Render
         }
 
         return "$prefix{$frame->toString()}|{$frame->arguments()->count()}";
+    }
+
+    private function node(CallFrame|Throwable $reference): Node
+    {
+        return Node::of($this->nodeName($reference));
+    }
+
+    private function nodeName(CallFrame|Throwable $reference): Node\Name
+    {
+        if ($reference instanceof Throwable) {
+            return Node\Name::of('exception_'.$this->hashThrowable($reference));
+        }
+
+        return Node\Name::of('call_frame_'.\md5($this->hashFrame($reference)));
+    }
+
+    private function configureEdge(Edge $edge, CallFrame $frame): Edge
+    {
+        if (!$frame instanceof CallFrame\UserLand) {
+            return $edge;
+        }
+
+        return $edge
+            ->displayAs("{$frame->file()->path()->toString()}:{$frame->line()->toString()}")
+            ->target(($this->link)($frame->file(), $frame->line()));
     }
 }

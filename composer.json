@@ -15,13 +15,11 @@
         "issues": "http://github.com/Innmind/StackTrace/issues"
     },
     "require": {
-        "php": "~8.0",
-        "innmind/immutable": "dev-next",
-        "innmind/url": "dev-next",
-        "innmind/graphviz": "dev-next"
+        "php": "~8.1",
+        "innmind/immutable": "~4.1",
+        "innmind/url": "~4.0",
+        "innmind/graphviz": "~3.1"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Innmind\\StackTrace\\": "src/"
@@ -34,9 +32,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~9.0",
-        "innmind/file-watch": "dev-next",
-        "innmind/operating-system": "dev-next",
-        "vimeo/psalm": "~4.4",
+        "innmind/operating-system": "~3.0",
+        "vimeo/psalm": "~4.21",
         "innmind/black-box": "^4.16",
         "innmind/coding-standard": "~2.0"
     }
