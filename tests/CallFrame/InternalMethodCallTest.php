@@ -20,7 +20,7 @@ class InternalMethodCallTest extends TestCase
             $class = new ClassName('foo'),
             $method = new Method('bar'),
             'foo',
-            'bar'
+            'bar',
         );
 
         $this->assertInstanceOf(CallFrame::class, $frame);

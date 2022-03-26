@@ -28,7 +28,7 @@ final class InternalMethodCall implements CallFrame
     public function __construct(
         ClassName $class,
         Method $method,
-        ...$arguments
+        ...$arguments,
     ) {
         $this->class = $class;
         $this->method = $method;

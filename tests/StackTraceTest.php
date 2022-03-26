@@ -23,10 +23,10 @@ class StackTraceTest extends TestCase
                     42,
                     $baz = new \Exception(
                         'baz',
-                        66
-                    )
-                )
-            )
+                        66,
+                    ),
+                ),
+            ),
         );
 
         $this->assertEquals(new Throwable($foo), $stack->throwable());

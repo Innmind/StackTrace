@@ -32,7 +32,7 @@ final class MethodCall implements UserLand
         Method $method,
         Url $file,
         Line $line,
-        ...$arguments
+        ...$arguments,
     ) {
         $this->class = $class;
         $this->method = $method;

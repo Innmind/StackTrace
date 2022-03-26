@@ -18,7 +18,7 @@ class InternalFunctionCallTest extends TestCase
         $frame = new InternalFunctionCall(
             $name = new FunctionName('foo'),
             'foo',
-            'bar'
+            'bar',
         );
 
         $this->assertInstanceOf(CallFrame::class, $frame);

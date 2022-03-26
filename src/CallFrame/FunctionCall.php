@@ -29,7 +29,7 @@ final class FunctionCall implements UserLand
         FunctionName $functionName,
         Url $file,
         Line $line,
-        ...$arguments
+        ...$arguments,
     ) {
         $this->functionName = $functionName;
         $this->file = $file;

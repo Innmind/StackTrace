@@ -23,7 +23,7 @@ class FunctionCallTest extends TestCase
             $file = Url::of('http://example.com'),
             $line = new Line(42),
             'foo',
-            'bar'
+            'bar',
         );
 
         $this->assertInstanceOf(CallFrame::class, $frame);
