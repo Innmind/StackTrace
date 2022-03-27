@@ -25,10 +25,12 @@ use Innmind\Immutable\{
 final class Render
 {
     private Link $link;
+    private FormatPath $formatPath;
 
-    private function __construct(Link $link = null)
+    private function __construct(Link $link = null, FormatPath $formatPath = null)
     {
         $this->link = $link ?? new Link\ToFile;
+        $this->formatPath = $formatPath ?? new FormatPath\FullPath;
     }
 
     public function __invoke(StackTrace $stack): Content
@@ -40,11 +42,13 @@ final class Render
         $thrown = $this->linkCausality($thrown, $stack);
         $callFrames = $this->callFrames(
             $this->link,
+            $this->formatPath,
             Graph::directed('call_frames')->displayAs('Stack Trace'),
             $stack,
         );
         $graph = $this->linkSources(
             $this->link,
+            $this->formatPath,
             Graph::directed('stack_trace'),
             $stack,
         );
@@ -59,9 +63,9 @@ final class Render
     /**
      * @psalm-pure
      */
-    public static function of(Link $link = null): self
+    public static function of(Link $link = null, FormatPath $formatPath = null): self
     {
-        return new self($link);
+        return new self($link, $formatPath);
     }
 
     /**
@@ -136,6 +140,7 @@ final class Render
      */
     private function callFrames(
         Link $link,
+        FormatPath $formatPath,
         Graph $callFrames,
         StackTrace $stack,
     ): Graph {
@@ -161,7 +166,7 @@ final class Render
                 static fn() => $stack->throwable(),
             );
 
-        return $this->linkCallFrames($link, $callFrames, $deepest);
+        return $this->linkCallFrames($link, $formatPath, $callFrames, $deepest);
     }
 
     /**
@@ -189,6 +194,7 @@ final class Render
      */
     private function linkCallFrames(
         Link $link,
+        FormatPath $formatPath,
         Graph $callFrames,
         Throwable $e,
     ): Graph {
@@ -204,7 +210,12 @@ final class Render
                 ->map(fn(CallFrame $top, CallFrame $bottom) => $callFrames->add(
                     $this->node($top)->linkedTo(
                         $this->nodeName($bottom),
-                        static fn($edge) => self::configureEdge($link, $edge, $top),
+                        static fn($edge) => self::configureEdge(
+                            $link,
+                            $formatPath,
+                            $edge,
+                            $top,
+                        ),
                     ),
                 ))
                 ->match(
@@ -221,14 +232,19 @@ final class Render
      *
      * @return Graph<'directed'>
      */
-    private function linkSources(Link $link, Graph $graph, StackTrace $stack): Graph
-    {
+    private function linkSources(
+        Link $link,
+        FormatPath $formatPath,
+        Graph $graph,
+        StackTrace $stack,
+    ): Graph {
         /**
          * @psalm-suppress InvalidArgument
          * @var callable(Graph<'directed'>, Throwable): Graph<'directed'>
          */
         $reducer = fn(Graph $graph, Throwable $e): Graph => $this->linkSource(
             $link,
+            $formatPath,
             $graph,
             $e,
         );
@@ -247,8 +263,12 @@ final class Render
      *
      * @return Graph<'directed'>
      */
-    private function linkSource(Link $link, Graph $graph, Throwable $e): Graph
-    {
+    private function linkSource(
+        Link $link,
+        FormatPath $formatPath,
+        Graph $graph,
+        Throwable $e,
+    ): Graph {
         return $e
             ->callFrames()
             ->first()
@@ -257,7 +277,7 @@ final class Render
                     $this->node($e)->linkedTo(
                         $this->nodeName($frame),
                         static fn($edge) => $edge
-                            ->displayAs("{$e->file()->path()->toString()}:{$e->line()->toString()}")
+                            ->displayAs($formatPath($e->file(), $e->line()))
                             ->target($link($e->file(), $e->line())),
                     ),
                 ),
@@ -309,14 +329,18 @@ final class Render
     /**
      * @psalm-pure
      */
-    private static function configureEdge(Link $link, Edge $edge, CallFrame $frame): Edge
-    {
+    private static function configureEdge(
+        Link $link,
+        FormatPath $formatPath,
+        Edge $edge,
+        CallFrame $frame,
+    ): Edge {
         if (!$frame instanceof CallFrame\UserLand) {
             return $edge;
         }
 
         return $edge
-            ->displayAs("{$frame->file()->path()->toString()}:{$frame->line()->toString()}")
+            ->displayAs($formatPath($frame->file(), $frame->line()))
             ->target($link($frame->file(), $frame->line()));
     }
 }
