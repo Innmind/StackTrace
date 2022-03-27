@@ -22,7 +22,7 @@ use Innmind\StackTrace\{
 use Innmind\OperatingSystem\Factory;
 use Innmind\Server\Control\Server\Command;
 
-$trace = new StackTrace(new AnyClassImplementingPhpThrowableInterface);
+$trace = StackTrace::of(new AnyClassImplementingPhpThrowableInterface);
 
 // every call frames that lead to the exception to be thrown
 // (deepest call frame first)
@@ -37,8 +37,8 @@ Factory::build()
             ->withShortOption('Tsvg')
             ->withShortOption('o', 'graph.svg')
             ->withInput(
-                (new Render)($trace)
-            )
+                Render::of()($trace)
+            ),
     )
     ->wait();
 ```
