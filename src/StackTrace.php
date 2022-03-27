@@ -5,6 +5,9 @@ namespace Innmind\StackTrace;
 
 use Innmind\Immutable\Sequence;
 
+/**
+ * @psalm-immutable
+ */
 final class StackTrace
 {
     private Throwable $throwable;
@@ -15,7 +18,7 @@ final class StackTrace
     {
         $this->throwable = new Throwable($e);
         /** @var Sequence<Throwable> */
-        $this->previous = Sequence::of(Throwable::class);
+        $this->previous = Sequence::of();
 
         while ($previous = $e->getPrevious()) {
             $this->previous = $this->previous->add(new Throwable($previous));

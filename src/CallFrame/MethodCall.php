@@ -11,6 +11,9 @@ use Innmind\StackTrace\{
 use Innmind\Url\Url;
 use Innmind\Immutable\Sequence;
 
+/**
+ * @psalm-immutable
+ */
 final class MethodCall implements UserLand
 {
     private ClassName $class;
@@ -20,6 +23,8 @@ final class MethodCall implements UserLand
     private Sequence $arguments;
 
     /**
+     * @no-named-arguments
+     *
      * @param mixed $arguments
      */
     public function __construct(
@@ -27,7 +32,7 @@ final class MethodCall implements UserLand
         Method $method,
         Url $file,
         Line $line,
-        ...$arguments
+        ...$arguments,
     ) {
         $this->class = $class;
         $this->method = $method;

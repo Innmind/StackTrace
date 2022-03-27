@@ -10,7 +10,6 @@ use Innmind\StackTrace\{
     Method,
 };
 use Innmind\Immutable\Sequence;
-use function Innmind\Immutable\unwrap;
 use PHPUnit\Framework\TestCase;
 
 class InternalMethodCallTest extends TestCase
@@ -21,14 +20,14 @@ class InternalMethodCallTest extends TestCase
             $class = new ClassName('foo'),
             $method = new Method('bar'),
             'foo',
-            'bar'
+            'bar',
         );
 
         $this->assertInstanceOf(CallFrame::class, $frame);
         $this->assertSame($class, $frame->class());
         $this->assertSame($method, $frame->method());
         $this->assertInstanceOf(Sequence::class, $frame->arguments());
-        $this->assertSame(['foo', 'bar'], unwrap($frame->arguments()));
+        $this->assertSame(['foo', 'bar'], $frame->arguments()->toList());
         $this->assertSame('foo->bar()', $frame->toString());
     }
 }

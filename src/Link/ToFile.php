@@ -9,6 +9,9 @@ use Innmind\StackTrace\{
 };
 use Innmind\Url\Url;
 
+/**
+ * @psalm-immutable
+ */
 final class ToFile implements Link
 {
     public function __invoke(Url $file, Line $line): Url

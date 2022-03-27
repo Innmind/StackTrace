@@ -8,7 +8,7 @@ use Innmind\StackTrace\{
     StackTrace,
     Exception\DomainException,
 };
-use Innmind\Stream\Readable;
+use Innmind\Filesystem\File\Content;
 use PHPUnit\Framework\TestCase;
 
 class RenderTest extends TestCase
@@ -26,7 +26,7 @@ class RenderTest extends TestCase
 
         $graph = $render(new StackTrace(new DomainException('', 0, $e)));
 
-        $this->assertInstanceOf(Readable::class, $graph);
+        $this->assertInstanceOf(Content::class, $graph);
         $this->assertNotEmpty($graph->toString());
         \file_put_contents('graph.dot', $graph->toString());
     }

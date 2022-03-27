@@ -12,6 +12,7 @@ use Innmind\Immutable\Sequence;
 
 /**
  * Function called within language function (ie: array_map) or by reflection
+ * @psalm-immutable
  */
 final class InternalStaticMethodCall implements CallFrame
 {
@@ -20,12 +21,14 @@ final class InternalStaticMethodCall implements CallFrame
     private Sequence $arguments;
 
     /**
+     * @no-named-arguments
+     *
      * @param mixed $arguments
      */
     public function __construct(
         ClassName $class,
         Method $method,
-        ...$arguments
+        ...$arguments,
     ) {
         $this->class = $class;
         $this->method = $method;
