@@ -10,6 +10,9 @@ use Innmind\Immutable\Sequence;
  */
 interface CallFrame
 {
+    /**
+     * @return Sequence<mixed>
+     */
     public function arguments(): Sequence;
     public function toString(): string;
 }
