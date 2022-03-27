@@ -21,7 +21,7 @@ final class StackTrace
         $this->previous = Sequence::of();
 
         while ($previous = $e->getPrevious()) {
-            $this->previous = $this->previous->add(new Throwable($previous));
+            $this->previous = ($this->previous)(new Throwable($previous));
             $e = $previous;
         }
     }
