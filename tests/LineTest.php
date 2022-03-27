@@ -22,8 +22,8 @@ class LineTest extends TestCase
         $this
             ->forAll(Set\Integers::above(0))
             ->then(function(int $int): void {
-                $this->assertSame($int, (new Line($int))->toInt());
-                $this->assertSame((string) $int, (new Line($int))->toString());
+                $this->assertSame($int, Line::of($int)->toInt());
+                $this->assertSame((string) $int, Line::of($int)->toString());
             });
     }
 
@@ -31,7 +31,7 @@ class LineTest extends TestCase
     {
         $this->expectException(DomainException::class);
 
-        new Line(0);
+        Line::of(0);
     }
 
     public function testThrowWhenNegativeValue()
@@ -41,7 +41,7 @@ class LineTest extends TestCase
             ->then(function(int $int): void {
                 $this->expectException(DomainException::class);
 
-                new Line($int);
+                Line::of($int);
             });
     }
 }

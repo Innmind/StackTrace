@@ -9,6 +9,9 @@ use Innmind\Immutable\{
     Str,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class Throwable
 {
     private ClassName $class;
@@ -21,15 +24,23 @@ final class Throwable
     /** @var Sequence<CallFrame> */
     private Sequence $frames;
 
-    public function __construct(\Throwable $e)
+    private function __construct(\Throwable $e)
     {
-        $this->class = new ClassName(\get_class($e));
+        $this->class = ClassName::of(\get_class($e));
         $this->code = (int) $e->getCode();
         $this->message = Str::of($e->getMessage());
         $this->file = Url::of('file://'.$e->getFile());
-        $this->line = new Line($e->getLine());
+        $this->line = Line::of($e->getLine());
         $this->trace = Str::of($e->getTraceAsString())->split("\n");
         $this->frames = CallFrames::of($e);
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public static function of(\Throwable $e): self
+    {
+        return new self($e);
     }
 
     public function class(): ClassName

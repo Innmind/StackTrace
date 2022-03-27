@@ -13,20 +13,19 @@ use Innmind\StackTrace\{
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\Sequence;
-use function Innmind\Immutable\unwrap;
 use PHPUnit\Framework\TestCase;
 
 class MethodCallTest extends TestCase
 {
     public function testInterface()
     {
-        $frame = new MethodCall(
-            $class = new ClassName('foo'),
-            $method = new Method('bar'),
+        $frame = MethodCall::of(
+            $class = ClassName::of('foo'),
+            $method = Method::of('bar'),
             $file = Url::of('http://example.com'),
-            $line = new Line(42),
+            $line = Line::of(42),
             'foo',
-            'bar'
+            'bar',
         );
 
         $this->assertInstanceOf(CallFrame::class, $frame);
@@ -36,7 +35,7 @@ class MethodCallTest extends TestCase
         $this->assertSame($file, $frame->file());
         $this->assertSame($line, $frame->line());
         $this->assertInstanceOf(Sequence::class, $frame->arguments());
-        $this->assertSame(['foo', 'bar'], unwrap($frame->arguments()));
+        $this->assertSame(['foo', 'bar'], $frame->arguments()->toList());
         $this->assertSame('foo->bar()', $frame->toString());
     }
 }

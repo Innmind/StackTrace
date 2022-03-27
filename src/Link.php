@@ -5,6 +5,9 @@ namespace Innmind\StackTrace;
 
 use Innmind\Url\Url;
 
+/**
+ * @psalm-immutable
+ */
 interface Link
 {
     public function __invoke(Url $file, Line $line): Url;

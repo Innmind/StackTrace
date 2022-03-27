@@ -25,7 +25,7 @@ class SublimeHandlerTest extends TestCase
 
         $this->assertSame(
             'sublime:///foo/bar/baz.php',
-            $link($file, new Line(42))->toString(),
+            $link($file, Line::of(42))->toString(),
         );
     }
 }

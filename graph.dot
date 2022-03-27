@@ -1,65 +1,49 @@
 digraph stack_trace {
     subgraph cluster_throwables {
         label="Thrown"
-    exception_000000003b7509d10000000030fddf0f;
-    exception_000000003b7508f70000000030fddf0f;
+    exception_0000000000000afb0000000000000000 -> exception_00000000000005a80000000000000000 [label="Caused by"];
+    exception_00000000000005a80000000000000000 [shape="doubleoctagon", style="filled", fillcolor="#ff0000", label="TypeError[42](foo)", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
+    exception_0000000000000afb0000000000000000 [shape="doubleoctagon", style="filled", fillcolor="#ff0000", label="Innmind\\StackTrace\\Exception\\DomainException[0]()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/RenderTest.php"];
     }
     subgraph cluster_call_frames {
         label="Stack Trace"
-    call_frame_e1af4458c179a96c69e9d81574fdd350;
-    call_frame_3b20705e91b76895162ff69f4f07a23e;
-    call_frame_78899d4635295534cfc817b37dee2513;
-    call_frame_07255d62e51f9d59fbf81563a8167a84;
-    call_frame_883bfbd6ef5baeea68860cd0770e908c;
-    call_frame_a3479fc68cbbda8c8966caf2abecb4ec;
-    call_frame_da9f8aa8271b7ba9a2e8d52bb7f63b65;
-    call_frame_c951407c4dade63b5f300f7ff9f3fa47;
-    call_frame_42ccbb3e3fd04b38e96aa94ca4e74d81;
-    call_frame_8fb851a6128a69d2b06be443f5771e52;
-    call_frame_d7a17053a184e5d17858cd78c0279ec1;
-    call_frame_6dbba90eaad4290e3858206eed062e58;
-    call_frame_25f88064e2fcfa7d34be364ad6ee57e1;
-    call_frame_eed644cc01cdbf25bf47430513fcf245;
-    call_frame_261e9c45fb3a0e9b2311e0af0a2bb415;
-    call_frame_078208d1422589c5828f1512974df71f;
-    call_frame_90ae3a0e2998d8a41799ad459fe10014;
-    }
-    exception_000000003b7509d10000000030fddf0f -> call_frame_e1af4458c179a96c69e9d81574fdd350 [label="/Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php:53", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
-    call_frame_3b20705e91b76895162ff69f4f07a23e -> call_frame_e1af4458c179a96c69e9d81574fdd350 [label="/Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php:46", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
-    call_frame_78899d4635295534cfc817b37dee2513 -> call_frame_3b20705e91b76895162ff69f4f07a23e;
-    call_frame_07255d62e51f9d59fbf81563a8167a84 -> call_frame_78899d4635295534cfc817b37dee2513 [label="/Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php:58", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
-    call_frame_883bfbd6ef5baeea68860cd0770e908c -> call_frame_07255d62e51f9d59fbf81563a8167a84 [label="/Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php:39", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
-    call_frame_a3479fc68cbbda8c8966caf2abecb4ec -> call_frame_883bfbd6ef5baeea68860cd0770e908c;
-    call_frame_da9f8aa8271b7ba9a2e8d52bb7f63b65 -> call_frame_a3479fc68cbbda8c8966caf2abecb4ec [label="/Users/baptouuuu/Sites/innmind/stack-trace/tests/RenderTest.php:22", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/RenderTest.php"];
-    call_frame_c951407c4dade63b5f300f7ff9f3fa47 -> call_frame_da9f8aa8271b7ba9a2e8d52bb7f63b65 [label="/Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestCase.php:1408", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestCase.php"];
-    call_frame_42ccbb3e3fd04b38e96aa94ca4e74d81 -> call_frame_c951407c4dade63b5f300f7ff9f3fa47 [label="/Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestCase.php:1028", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestCase.php"];
-    call_frame_8fb851a6128a69d2b06be443f5771e52 -> call_frame_42ccbb3e3fd04b38e96aa94ca4e74d81 [label="/Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestResult.php:691", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestResult.php"];
-    call_frame_d7a17053a184e5d17858cd78c0279ec1 -> call_frame_8fb851a6128a69d2b06be443f5771e52 [label="/Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestCase.php:756", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestCase.php"];
-    call_frame_6dbba90eaad4290e3858206eed062e58 -> call_frame_d7a17053a184e5d17858cd78c0279ec1 [label="/Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestSuite.php:597", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestSuite.php"];
-    call_frame_25f88064e2fcfa7d34be364ad6ee57e1 -> call_frame_6dbba90eaad4290e3858206eed062e58 [label="/Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestSuite.php:597", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestSuite.php"];
-    call_frame_eed644cc01cdbf25bf47430513fcf245 -> call_frame_25f88064e2fcfa7d34be364ad6ee57e1 [label="/Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/TextUI/TestRunner.php:621", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/TextUI/TestRunner.php"];
-    call_frame_261e9c45fb3a0e9b2311e0af0a2bb415 -> call_frame_eed644cc01cdbf25bf47430513fcf245 [label="/Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/TextUI/Command.php:200", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/TextUI/Command.php"];
-    call_frame_078208d1422589c5828f1512974df71f -> call_frame_261e9c45fb3a0e9b2311e0af0a2bb415 [label="/Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/TextUI/Command.php:159", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/TextUI/Command.php"];
-    call_frame_90ae3a0e2998d8a41799ad459fe10014 -> call_frame_078208d1422589c5828f1512974df71f [label="/Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/phpunit:61", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/phpunit"];
-    exception_000000003b7508f70000000030fddf0f -> exception_000000003b7509d10000000030fddf0f [label="Caused By"];
-    exception_000000003b7508f70000000030fddf0f -> call_frame_c951407c4dade63b5f300f7ff9f3fa47 [label="/Users/baptouuuu/Sites/innmind/stack-trace/tests/RenderTest.php:27", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/RenderTest.php"];
-    exception_000000003b7509d10000000030fddf0f [shape="doubleoctagon", style="filled", fillcolor="#ff0000", label="TypeError[42](foo)", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
-    call_frame_e1af4458c179a96c69e9d81574fdd350 [shape="box", style="filled", fillcolor="#ffa500", label="class@anonymous/Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php0x11368ceda->__invoke()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
-    call_frame_3b20705e91b76895162ff69f4f07a23e [shape="box", style="filled", fillcolor="#ffa500", label="Tests\\Innmind\\StackTrace\\{closure}()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
+    call_frame_4f9ea46a7375c109da69901c633013a9 -> call_frame_53aaccb6492409f5e3f3865fc706111e [label="tests/CallFramesTest.php:70", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
+    call_frame_78899d4635295534cfc817b37dee2513 -> call_frame_4f9ea46a7375c109da69901c633013a9;
+    call_frame_7945ef788bc897e87fc2d31edd4537b5 -> call_frame_78899d4635295534cfc817b37dee2513 [label="tests/CallFramesTest.php:82", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
+    call_frame_9914fdd0b965fa974e826064877ece14 -> call_frame_7945ef788bc897e87fc2d31edd4537b5 [label="tests/CallFramesTest.php:62", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
+    call_frame_a3479fc68cbbda8c8966caf2abecb4ec -> call_frame_9914fdd0b965fa974e826064877ece14;
+    call_frame_4bebae301b668efb03e7bc24f79606a6 -> call_frame_a3479fc68cbbda8c8966caf2abecb4ec [label="tests/RenderTest.php:24", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/RenderTest.php"];
+    call_frame_47c0407195947f117d1878ddc407c0a3 -> call_frame_4bebae301b668efb03e7bc24f79606a6 [label="vendor/phpunit/phpunit/src/Framework/TestCase.php:1545", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestCase.php"];
+    call_frame_07f591f613086fa0eafe956f80ef31fa -> call_frame_47c0407195947f117d1878ddc407c0a3 [label="vendor/phpunit/phpunit/src/Framework/TestCase.php:1151", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestCase.php"];
+    call_frame_5627b6f9e8560c938320b94b612d2fc0 -> call_frame_07f591f613086fa0eafe956f80ef31fa [label="vendor/phpunit/phpunit/src/Framework/TestResult.php:726", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestResult.php"];
+    call_frame_9e85687edeee0a8f8bd7f473ec92cc89 -> call_frame_5627b6f9e8560c938320b94b612d2fc0 [label="vendor/phpunit/phpunit/src/Framework/TestCase.php:903", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestCase.php"];
+    call_frame_862259868e8b30c44157d4fa168fc13a -> call_frame_9e85687edeee0a8f8bd7f473ec92cc89 [label="vendor/phpunit/phpunit/src/Framework/TestSuite.php:677", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestSuite.php"];
+    call_frame_cc4026df087e27e93e934267183b41f4 -> call_frame_862259868e8b30c44157d4fa168fc13a [label="vendor/phpunit/phpunit/src/Framework/TestSuite.php:677", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestSuite.php"];
+    call_frame_cc4026df087e27e93e934267183b41f4 -> call_frame_cc4026df087e27e93e934267183b41f4 [label="vendor/phpunit/phpunit/src/Framework/TestSuite.php:677", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestSuite.php"];
+    call_frame_c8d6907ef39a015179586fa3b8c89d1a -> call_frame_cc4026df087e27e93e934267183b41f4 [label="vendor/phpunit/phpunit/src/TextUI/TestRunner.php:673", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/TextUI/TestRunner.php"];
+    call_frame_95bacb9103a97886bc59bc9084f8765c -> call_frame_c8d6907ef39a015179586fa3b8c89d1a [label="vendor/phpunit/phpunit/src/TextUI/Command.php:143", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/TextUI/Command.php"];
+    call_frame_ea22ce8c2ce2b0f720bfdcc70fb908c5 -> call_frame_95bacb9103a97886bc59bc9084f8765c [label="vendor/phpunit/phpunit/src/TextUI/Command.php:96", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/TextUI/Command.php"];
+    call_frame_06e435cf2f8ff07c446385801e950ee7 -> call_frame_ea22ce8c2ce2b0f720bfdcc70fb908c5 [label="vendor/phpunit/phpunit/phpunit:98", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/phpunit"];
+    call_frame_d8b76d2929d9dd7cd5896c117a761475 -> call_frame_06e435cf2f8ff07c446385801e950ee7 [label="vendor/bin/phpunit:120", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/bin/phpunit"];
+    call_frame_53aaccb6492409f5e3f3865fc706111e [shape="box", style="filled", fillcolor="#ffa500", label="class@anonymous/Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php:74$1e->__invoke()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
+    call_frame_4f9ea46a7375c109da69901c633013a9 [shape="box", style="filled", fillcolor="#ffa500", label="Tests\\Innmind\\StackTrace\\{closure}()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
     call_frame_78899d4635295534cfc817b37dee2513 [shape="box", style="filled", fillcolor="#ffa500", label="Tests\\Innmind\\StackTrace\\foo()"];
-    call_frame_07255d62e51f9d59fbf81563a8167a84 [shape="box", style="filled", fillcolor="#ffa500", label="array_walk()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
-    call_frame_883bfbd6ef5baeea68860cd0770e908c [shape="box", style="filled", fillcolor="#ffa500", label="Tests\\Innmind\\StackTrace\\CallFramesTest::staticCall()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
+    call_frame_7945ef788bc897e87fc2d31edd4537b5 [shape="box", style="filled", fillcolor="#ffa500", label="array_walk()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
+    call_frame_9914fdd0b965fa974e826064877ece14 [shape="box", style="filled", fillcolor="#ffa500", label="Tests\\Innmind\\StackTrace\\CallFramesTest::staticCall()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
     call_frame_a3479fc68cbbda8c8966caf2abecb4ec [shape="box", style="filled", fillcolor="#ffa500", label="Tests\\Innmind\\StackTrace\\CallFramesTest::refl()"];
-    call_frame_da9f8aa8271b7ba9a2e8d52bb7f63b65 [shape="box", style="filled", fillcolor="#ffa500", label="ReflectionMethod->invoke()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/RenderTest.php"];
-    call_frame_c951407c4dade63b5f300f7ff9f3fa47 [shape="box", style="filled", fillcolor="#ffa500", label="Tests\\Innmind\\StackTrace\\RenderTest->testInvokation()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestCase.php"];
-    call_frame_42ccbb3e3fd04b38e96aa94ca4e74d81 [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\Framework\\TestCase->runTest()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestCase.php"];
-    call_frame_8fb851a6128a69d2b06be443f5771e52 [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\Framework\\TestCase->runBare()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestResult.php"];
-    call_frame_d7a17053a184e5d17858cd78c0279ec1 [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\Framework\\TestResult->run()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestCase.php"];
-    call_frame_6dbba90eaad4290e3858206eed062e58 [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\Framework\\TestCase->run()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestSuite.php"];
-    call_frame_25f88064e2fcfa7d34be364ad6ee57e1 [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\Framework\\TestSuite->run()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestSuite.php"];
-    call_frame_eed644cc01cdbf25bf47430513fcf245 [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\Framework\\TestSuite->run()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/TextUI/TestRunner.php"];
-    call_frame_261e9c45fb3a0e9b2311e0af0a2bb415 [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\TextUI\\TestRunner->doRun()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/TextUI/Command.php"];
-    call_frame_078208d1422589c5828f1512974df71f [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\TextUI\\Command->run()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/TextUI/Command.php"];
-    call_frame_90ae3a0e2998d8a41799ad459fe10014 [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\TextUI\\Command::main()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/phpunit"];
-    exception_000000003b7508f70000000030fddf0f [shape="doubleoctagon", style="filled", fillcolor="#ff0000", label="Innmind\\StackTrace\\Exception\\DomainException[0]()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/RenderTest.php"];
+    call_frame_4bebae301b668efb03e7bc24f79606a6 [shape="box", style="filled", fillcolor="#ffa500", label="ReflectionMethod->invoke()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/RenderTest.php"];
+    call_frame_47c0407195947f117d1878ddc407c0a3 [shape="box", style="filled", fillcolor="#ffa500", label="Tests\\Innmind\\StackTrace\\RenderTest->testInvokation()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestCase.php"];
+    call_frame_07f591f613086fa0eafe956f80ef31fa [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\Framework\\TestCase->runTest()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestCase.php"];
+    call_frame_5627b6f9e8560c938320b94b612d2fc0 [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\Framework\\TestCase->runBare()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestResult.php"];
+    call_frame_9e85687edeee0a8f8bd7f473ec92cc89 [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\Framework\\TestResult->run()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestCase.php"];
+    call_frame_862259868e8b30c44157d4fa168fc13a [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\Framework\\TestCase->run()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestSuite.php"];
+    call_frame_cc4026df087e27e93e934267183b41f4 [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\Framework\\TestSuite->run()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/Framework/TestSuite.php"];
+    call_frame_c8d6907ef39a015179586fa3b8c89d1a [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\Framework\\TestSuite->run()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/TextUI/TestRunner.php"];
+    call_frame_95bacb9103a97886bc59bc9084f8765c [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\TextUI\\TestRunner->run()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/TextUI/Command.php"];
+    call_frame_ea22ce8c2ce2b0f720bfdcc70fb908c5 [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\TextUI\\Command->run()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/src/TextUI/Command.php"];
+    call_frame_06e435cf2f8ff07c446385801e950ee7 [shape="box", style="filled", fillcolor="#ffa500", label="PHPUnit\\TextUI\\Command::main()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/phpunit/phpunit/phpunit"];
+    call_frame_d8b76d2929d9dd7cd5896c117a761475 [shape="box", style="filled", fillcolor="#ffa500", label="include()", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/vendor/bin/phpunit"];
+    }
+    exception_00000000000005a80000000000000000 -> call_frame_53aaccb6492409f5e3f3865fc706111e [label="tests/CallFramesTest.php:77", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/CallFramesTest.php"];
+    exception_0000000000000afb0000000000000000 -> call_frame_47c0407195947f117d1878ddc407c0a3 [label="tests/RenderTest.php:29", URL="file:///Users/baptouuuu/Sites/innmind/stack-trace/tests/RenderTest.php"];
 }

@@ -11,6 +11,7 @@ use Innmind\Immutable\Sequence;
 
 /**
  * Function called within language function (ie: array_map) or by reflection
+ * @psalm-immutable
  */
 final class InternalFunctionCall implements CallFrame
 {
@@ -18,12 +19,21 @@ final class InternalFunctionCall implements CallFrame
     private Sequence $arguments;
 
     /**
-     * @param mixed $arguments
+     * @no-named-arguments
      */
-    public function __construct(FunctionName $functionName, ...$arguments)
+    private function __construct(FunctionName $functionName, mixed ...$arguments)
     {
         $this->functionName = $functionName;
         $this->arguments = Sequence::mixed(...$arguments);
+    }
+
+    /**
+     * @no-named-arguments
+     * @psalm-pure
+     */
+    public static function of(FunctionName $functionName, mixed ...$arguments): self
+    {
+        return new self($functionName, ...$arguments);
     }
 
     public function functionName(): FunctionName

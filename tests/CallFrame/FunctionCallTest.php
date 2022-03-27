@@ -12,19 +12,18 @@ use Innmind\StackTrace\{
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\Sequence;
-use function Innmind\Immutable\unwrap;
 use PHPUnit\Framework\TestCase;
 
 class FunctionCallTest extends TestCase
 {
     public function testInterface()
     {
-        $frame = new FunctionCall(
-            $name = new FunctionName('foo'),
+        $frame = FunctionCall::of(
+            $name = FunctionName::of('foo'),
             $file = Url::of('http://example.com'),
-            $line = new Line(42),
+            $line = Line::of(42),
             'foo',
-            'bar'
+            'bar',
         );
 
         $this->assertInstanceOf(CallFrame::class, $frame);
@@ -33,7 +32,7 @@ class FunctionCallTest extends TestCase
         $this->assertSame($file, $frame->file());
         $this->assertSame($line, $frame->line());
         $this->assertInstanceOf(Sequence::class, $frame->arguments());
-        $this->assertSame(['foo', 'bar'], unwrap($frame->arguments()));
+        $this->assertSame(['foo', 'bar'], $frame->arguments()->toList());
         $this->assertSame('foo()', $frame->toString());
     }
 }

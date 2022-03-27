@@ -2,16 +2,15 @@
 
 require __DIR__.'/vendor/autoload.php';
 
-use function Innmind\FileWatch\bootstrap;
 use Innmind\OperatingSystem\Factory;
-use Innmind\TimeWarp\Halt\Usleep;
 use Innmind\Url\Path;
 use Innmind\Server\Control\Server\Command;
+use Innmind\Immutable\Either;
 
 $os = Factory::build();
-$watch = bootstrap($os->control()->processes(), new Usleep, $os->clock());
+$watch = $os->filesystem()->watch(Path::of(__DIR__.'/graph.dot'));
 
-$watch(Path::of(__DIR__.'/graph.dot'))(function() use ($os): void {
+$watch($os, function($os): Either {
     $process = $os
         ->control()
         ->processes()
@@ -21,8 +20,9 @@ $watch(Path::of(__DIR__.'/graph.dot'))(function() use ($os): void {
                 ->withShortOption('o', 'graph.svg')
                 ->withArgument('graph.dot')
         );
-    $process->wait();
 
     echo $process->output()->toString();
     echo 'rendered'."\n";
+
+    return Either::right($os);
 });

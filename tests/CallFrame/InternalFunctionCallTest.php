@@ -9,23 +9,22 @@ use Innmind\StackTrace\{
     FunctionName,
 };
 use Innmind\Immutable\Sequence;
-use function Innmind\Immutable\unwrap;
 use PHPUnit\Framework\TestCase;
 
 class InternalFunctionCallTest extends TestCase
 {
     public function testInterface()
     {
-        $frame = new InternalFunctionCall(
-            $name = new FunctionName('foo'),
+        $frame = InternalFunctionCall::of(
+            $name = FunctionName::of('foo'),
             'foo',
-            'bar'
+            'bar',
         );
 
         $this->assertInstanceOf(CallFrame::class, $frame);
         $this->assertSame($name, $frame->functionName());
         $this->assertInstanceOf(Sequence::class, $frame->arguments());
-        $this->assertSame(['foo', 'bar'], unwrap($frame->arguments()));
+        $this->assertSame(['foo', 'bar'], $frame->arguments()->toList());
         $this->assertSame('foo()', $frame->toString());
     }
 }

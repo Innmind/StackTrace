@@ -9,6 +9,9 @@ use Innmind\StackTrace\{
 };
 use Innmind\Url\Url;
 
+/**
+ * @psalm-immutable
+ */
 interface UserLand extends CallFrame
 {
     public function file(): Url;

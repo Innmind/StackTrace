@@ -9,6 +9,8 @@ use Innmind\Immutable\Sequence;
 final class CallFrames
 {
     /**
+     * @psalm-pure
+     *
      * @return Sequence<CallFrame>
      */
     public static function of(\Throwable $throwable): Sequence
@@ -28,10 +30,12 @@ final class CallFrames
         }
 
         /** @var Sequence<CallFrame> */
-        return Sequence::of(CallFrame::class, ...$frames);
+        return Sequence::of(...$frames);
     }
 
     /**
+     * @psalm-pure
+     *
      * @param array{class?: string, type: string, file?: string, function: string, file: string, line: int, args?: array} $frame
      */
     private static function methodCall(array $frame): ?CallFrame
@@ -48,16 +52,18 @@ final class CallFrames
             return null;
         }
 
-        return new CallFrame\MethodCall(
-            new ClassName($frame['class']),
-            new Method($frame['function']),
+        return CallFrame\MethodCall::of(
+            ClassName::of($frame['class']),
+            Method::of($frame['function']),
             Url::of('file://'.$frame['file']),
-            new Line($frame['line']),
-            ...$frame['args'] ?? [],
+            Line::of($frame['line']),
+            ...\array_values($frame['args'] ?? []),
         );
     }
 
     /**
+     * @psalm-pure
+     *
      * @param array{class?: string, type: string, file?: string, function: string, line: int, args?: array} $frame
      */
     private static function staticMethodCall(array $frame): ?CallFrame
@@ -74,16 +80,18 @@ final class CallFrames
             return null;
         }
 
-        return new CallFrame\StaticMethodCall(
-            new ClassName($frame['class']),
-            new Method($frame['function']),
+        return CallFrame\StaticMethodCall::of(
+            ClassName::of($frame['class']),
+            Method::of($frame['function']),
             Url::of('file://'.$frame['file']),
-            new Line($frame['line']),
-            ...$frame['args'] ?? [],
+            Line::of($frame['line']),
+            ...\array_values($frame['args'] ?? []),
         );
     }
 
     /**
+     * @psalm-pure
+     *
      * @param array{class?: string, type: string, function: string, args?: array} $frame
      */
     private static function internalMethodCall(array $frame): ?CallFrame
@@ -96,14 +104,16 @@ final class CallFrames
             return null;
         }
 
-        return new CallFrame\InternalMethodCall(
-            new ClassName($frame['class']),
-            new Method($frame['function']),
-            ...$frame['args'] ?? [],
+        return CallFrame\InternalMethodCall::of(
+            ClassName::of($frame['class']),
+            Method::of($frame['function']),
+            ...\array_values($frame['args'] ?? []),
         );
     }
 
     /**
+     * @psalm-pure
+     *
      * @param array{class?: string, type: string, function: string, args?: array} $frame
      */
     private static function internalStaticMethodCall(array $frame): ?CallFrame
@@ -116,14 +126,16 @@ final class CallFrames
             return null;
         }
 
-        return new CallFrame\InternalStaticMethodCall(
-            new ClassName($frame['class']),
-            new Method($frame['function']),
-            ...$frame['args'] ?? [],
+        return CallFrame\InternalStaticMethodCall::of(
+            ClassName::of($frame['class']),
+            Method::of($frame['function']),
+            ...\array_values($frame['args'] ?? []),
         );
     }
 
     /**
+     * @psalm-pure
+     *
      * @param array{file?: string, function: string, file: string, line: int, args?: array}  $frame
      */
     private static function functionCall(array $frame): ?CallFrame
@@ -132,22 +144,24 @@ final class CallFrames
             return null;
         }
 
-        return new CallFrame\FunctionCall(
-            new FunctionName($frame['function']),
+        return CallFrame\FunctionCall::of(
+            FunctionName::of($frame['function']),
             Url::of('file://'.$frame['file']),
-            new Line($frame['line']),
-            ...$frame['args'] ?? [],
+            Line::of($frame['line']),
+            ...\array_values($frame['args'] ?? []),
         );
     }
 
     /**
+     * @psalm-pure
+     *
      * @param array{function: string, args?: array} $frame
      */
     private static function internalFunctionCall(array $frame): CallFrame
     {
-        return new CallFrame\InternalFunctionCall(
-            new FunctionName($frame['function']),
-            ...$frame['args'] ?? [],
+        return CallFrame\InternalFunctionCall::of(
+            FunctionName::of($frame['function']),
+            ...\array_values($frame['args'] ?? []),
         );
     }
 }

@@ -22,16 +22,39 @@ class CallFramesTest extends TestCase
         }
 
         $this->assertInstanceOf(Sequence::class, $frames);
-        $this->assertSame(CallFrame::class, $frames->type());
-        $this->assertCount(18, $frames);
-        $this->assertInstanceOf(CallFrame\MethodCall::class, $frames->get(0));
-        $this->assertInstanceOf(CallFrame\FunctionCall::class, $frames->get(1));
-        $this->assertInstanceOf(CallFrame\InternalFunctionCall::class, $frames->get(2));
-        $this->assertInstanceOf(CallFrame\FunctionCall::class, $frames->get(3));
-        $this->assertInstanceOf(CallFrame\StaticMethodCall::class, $frames->get(4));
-        $this->assertInstanceOf(CallFrame\InternalStaticMethodCall::class, $frames->get(5));
-        $this->assertInstanceOf(CallFrame\MethodCall::class, $frames->get(6));
-        $this->assertInstanceOf(CallFrame\MethodCall::class, $frames->get(7));
+        $this->assertCount(19, $frames);
+        $this->assertInstanceOf(CallFrame\MethodCall::class, $frames->get(0)->match(
+            static fn($frame) => $frame,
+            static fn() => null,
+        ));
+        $this->assertInstanceOf(CallFrame\FunctionCall::class, $frames->get(1)->match(
+            static fn($frame) => $frame,
+            static fn() => null,
+        ));
+        $this->assertInstanceOf(CallFrame\InternalFunctionCall::class, $frames->get(2)->match(
+            static fn($frame) => $frame,
+            static fn() => null,
+        ));
+        $this->assertInstanceOf(CallFrame\FunctionCall::class, $frames->get(3)->match(
+            static fn($frame) => $frame,
+            static fn() => null,
+        ));
+        $this->assertInstanceOf(CallFrame\StaticMethodCall::class, $frames->get(4)->match(
+            static fn($frame) => $frame,
+            static fn() => null,
+        ));
+        $this->assertInstanceOf(CallFrame\InternalStaticMethodCall::class, $frames->get(5)->match(
+            static fn($frame) => $frame,
+            static fn() => null,
+        ));
+        $this->assertInstanceOf(CallFrame\MethodCall::class, $frames->get(6)->match(
+            static fn($frame) => $frame,
+            static fn() => null,
+        ));
+        $this->assertInstanceOf(CallFrame\MethodCall::class, $frames->get(7)->match(
+            static fn($frame) => $frame,
+            static fn() => null,
+        ));
     }
 
     public static function refl()
