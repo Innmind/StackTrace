@@ -18,10 +18,10 @@ class FunctionCallTest extends TestCase
 {
     public function testInterface()
     {
-        $frame = new FunctionCall(
-            $name = new FunctionName('foo'),
+        $frame = FunctionCall::of(
+            $name = FunctionName::of('foo'),
             $file = Url::of('http://example.com'),
-            $line = new Line(42),
+            $line = Line::of(42),
             'foo',
             'bar',
         );

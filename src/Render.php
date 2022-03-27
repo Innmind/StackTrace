@@ -26,7 +26,7 @@ final class Render
 {
     private Link $link;
 
-    public function __construct(Link $link = null)
+    private function __construct(Link $link = null)
     {
         $this->link = $link ?? new Link\ToFile;
     }
@@ -54,6 +54,14 @@ final class Render
                 ->cluster($thrown)
                 ->cluster($callFrames),
         );
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public static function of(Link $link = null): self
+    {
+        return new self($link);
     }
 
     /**

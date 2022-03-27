@@ -15,7 +15,7 @@ class RenderTest extends TestCase
 {
     public function testInvokation()
     {
-        $render = new Render;
+        $render = Render::of();
 
         try {
             $refl = new \ReflectionMethod(CallFramesTest::class, 'refl');
@@ -24,7 +24,7 @@ class RenderTest extends TestCase
             // pass
         }
 
-        $graph = $render(new StackTrace(new DomainException('', 0, $e)));
+        $graph = $render(StackTrace::of(new DomainException('', 0, $e)));
 
         $this->assertInstanceOf(Content::class, $graph);
         $this->assertNotEmpty($graph->toString());

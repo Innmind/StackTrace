@@ -23,7 +23,7 @@ final class FunctionCall implements UserLand
     /**
      * @no-named-arguments
      */
-    public function __construct(
+    private function __construct(
         FunctionName $functionName,
         Url $file,
         Line $line,
@@ -33,6 +33,19 @@ final class FunctionCall implements UserLand
         $this->file = $file;
         $this->line = $line;
         $this->arguments = Sequence::mixed(...$arguments);
+    }
+
+    /**
+     * @no-named-arguments
+     * @psalm-pure
+     */
+    public static function of(
+        FunctionName $functionName,
+        Url $file,
+        Line $line,
+        mixed ...$arguments,
+    ): self {
+        return new self($functionName, $file, $line, ...$arguments);
     }
 
     public function functionName(): FunctionName

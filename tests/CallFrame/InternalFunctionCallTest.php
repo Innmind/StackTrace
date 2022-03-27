@@ -15,8 +15,8 @@ class InternalFunctionCallTest extends TestCase
 {
     public function testInterface()
     {
-        $frame = new InternalFunctionCall(
-            $name = new FunctionName('foo'),
+        $frame = InternalFunctionCall::of(
+            $name = FunctionName::of('foo'),
             'foo',
             'bar',
         );

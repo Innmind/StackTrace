@@ -25,7 +25,7 @@ final class StaticMethodCall implements UserLand
     /**
      * @no-named-arguments
      */
-    public function __construct(
+    private function __construct(
         ClassName $class,
         Method $method,
         Url $file,
@@ -37,6 +37,20 @@ final class StaticMethodCall implements UserLand
         $this->file = $file;
         $this->line = $line;
         $this->arguments = Sequence::mixed(...$arguments);
+    }
+
+    /**
+     * @no-named-arguments
+     * @psalm-pure
+     */
+    public static function of(
+        ClassName $class,
+        Method $method,
+        Url $file,
+        Line $line,
+        mixed ...$arguments,
+    ): self {
+        return new self($class, $method, $file, $line, ...$arguments);
     }
 
     public function class(): ClassName

@@ -22,7 +22,7 @@ class MethodTest extends TestCase
         $this
             ->forAll(Set\Strings::any()->filter(static fn($string) => $string !== ''))
             ->then(function(string $string): void {
-                $this->assertSame($string, (new Method($string))->toString());
+                $this->assertSame($string, Method::of($string)->toString());
             });
     }
 
@@ -30,6 +30,6 @@ class MethodTest extends TestCase
     {
         $this->expectException(DomainException::class);
 
-        new Method('');
+        Method::of('');
     }
 }

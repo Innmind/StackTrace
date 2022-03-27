@@ -20,7 +20,7 @@ class ThrowableTest extends TestCase
 {
     public function testInterface()
     {
-        $throwable = new Throwable($e = new \Exception('foo', 42));
+        $throwable = Throwable::of($e = new \Exception('foo', 42));
 
         $this->assertInstanceOf(ClassName::class, $throwable->class());
         $this->assertSame(\Exception::class, $throwable->class()->toString());

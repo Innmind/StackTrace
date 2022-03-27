@@ -52,11 +52,11 @@ final class CallFrames
             return null;
         }
 
-        return new CallFrame\MethodCall(
-            new ClassName($frame['class']),
-            new Method($frame['function']),
+        return CallFrame\MethodCall::of(
+            ClassName::of($frame['class']),
+            Method::of($frame['function']),
             Url::of('file://'.$frame['file']),
-            new Line($frame['line']),
+            Line::of($frame['line']),
             ...\array_values($frame['args'] ?? []),
         );
     }
@@ -80,11 +80,11 @@ final class CallFrames
             return null;
         }
 
-        return new CallFrame\StaticMethodCall(
-            new ClassName($frame['class']),
-            new Method($frame['function']),
+        return CallFrame\StaticMethodCall::of(
+            ClassName::of($frame['class']),
+            Method::of($frame['function']),
             Url::of('file://'.$frame['file']),
-            new Line($frame['line']),
+            Line::of($frame['line']),
             ...\array_values($frame['args'] ?? []),
         );
     }
@@ -104,9 +104,9 @@ final class CallFrames
             return null;
         }
 
-        return new CallFrame\InternalMethodCall(
-            new ClassName($frame['class']),
-            new Method($frame['function']),
+        return CallFrame\InternalMethodCall::of(
+            ClassName::of($frame['class']),
+            Method::of($frame['function']),
             ...\array_values($frame['args'] ?? []),
         );
     }
@@ -126,9 +126,9 @@ final class CallFrames
             return null;
         }
 
-        return new CallFrame\InternalStaticMethodCall(
-            new ClassName($frame['class']),
-            new Method($frame['function']),
+        return CallFrame\InternalStaticMethodCall::of(
+            ClassName::of($frame['class']),
+            Method::of($frame['function']),
             ...\array_values($frame['args'] ?? []),
         );
     }
@@ -144,10 +144,10 @@ final class CallFrames
             return null;
         }
 
-        return new CallFrame\FunctionCall(
-            new FunctionName($frame['function']),
+        return CallFrame\FunctionCall::of(
+            FunctionName::of($frame['function']),
             Url::of('file://'.$frame['file']),
-            new Line($frame['line']),
+            Line::of($frame['line']),
             ...\array_values($frame['args'] ?? []),
         );
     }
@@ -159,8 +159,8 @@ final class CallFrames
      */
     private static function internalFunctionCall(array $frame): CallFrame
     {
-        return new CallFrame\InternalFunctionCall(
-            new FunctionName($frame['function']),
+        return CallFrame\InternalFunctionCall::of(
+            FunctionName::of($frame['function']),
             ...\array_values($frame['args'] ?? []),
         );
     }

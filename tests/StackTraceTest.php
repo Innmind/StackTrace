@@ -14,7 +14,7 @@ class StackTraceTest extends TestCase
 {
     public function testInterface()
     {
-        $stack = new StackTrace(
+        $stack = StackTrace::of(
             $foo = new \RuntimeException(
                 'foo',
                 24,
@@ -29,11 +29,11 @@ class StackTraceTest extends TestCase
             ),
         );
 
-        $this->assertEquals(new Throwable($foo), $stack->throwable());
+        $this->assertEquals(Throwable::of($foo), $stack->throwable());
         $this->assertInstanceOf(Sequence::class, $stack->previous());
         $this->assertCount(2, $stack->previous());
         $this->assertEquals(
-            [new Throwable($bar), new Throwable($baz)],
+            [Throwable::of($bar), Throwable::of($baz)],
             $stack->previous()->toList(),
         );
     }

@@ -23,7 +23,7 @@ final class InternalMethodCall implements CallFrame
     /**
      * @no-named-arguments
      */
-    public function __construct(
+    private function __construct(
         ClassName $class,
         Method $method,
         mixed ...$arguments,
@@ -31,6 +31,18 @@ final class InternalMethodCall implements CallFrame
         $this->class = $class;
         $this->method = $method;
         $this->arguments = Sequence::mixed(...$arguments);
+    }
+
+    /**
+     * @no-named-arguments
+     * @psalm-pure
+     */
+    public static function of(
+        ClassName $class,
+        Method $method,
+        mixed ...$arguments,
+    ): self {
+        return new self($class, $method, ...$arguments);
     }
 
     public function class(): ClassName

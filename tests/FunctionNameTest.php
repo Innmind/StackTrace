@@ -22,7 +22,7 @@ class FunctionNameTest extends TestCase
         $this
             ->forAll(Set\Strings::any()->filter(static fn($string) => $string !== ''))
             ->then(function(string $string): void {
-                $this->assertSame($string, (new FunctionName($string))->toString());
+                $this->assertSame($string, FunctionName::of($string)->toString());
             });
     }
 
@@ -30,6 +30,6 @@ class FunctionNameTest extends TestCase
     {
         $this->expectException(DomainException::class);
 
-        new FunctionName('');
+        FunctionName::of('');
     }
 }

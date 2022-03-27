@@ -21,10 +21,19 @@ final class InternalFunctionCall implements CallFrame
     /**
      * @no-named-arguments
      */
-    public function __construct(FunctionName $functionName, mixed ...$arguments)
+    private function __construct(FunctionName $functionName, mixed ...$arguments)
     {
         $this->functionName = $functionName;
         $this->arguments = Sequence::mixed(...$arguments);
+    }
+
+    /**
+     * @no-named-arguments
+     * @psalm-pure
+     */
+    public static function of(FunctionName $functionName, mixed ...$arguments): self
+    {
+        return new self($functionName, ...$arguments);
     }
 
     public function functionName(): FunctionName

@@ -19,11 +19,11 @@ class MethodCallTest extends TestCase
 {
     public function testInterface()
     {
-        $frame = new MethodCall(
-            $class = new ClassName('foo'),
-            $method = new Method('bar'),
+        $frame = MethodCall::of(
+            $class = ClassName::of('foo'),
+            $method = Method::of('bar'),
             $file = Url::of('http://example.com'),
-            $line = new Line(42),
+            $line = Line::of(42),
             'foo',
             'bar',
         );

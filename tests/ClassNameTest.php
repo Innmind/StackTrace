@@ -22,7 +22,7 @@ class ClassNameTest extends TestCase
         $this
             ->forAll(Set\Strings::any()->filter(static fn($string) => $string !== ''))
             ->then(function(string $string): void {
-                $this->assertSame($string, (new ClassName($string))->toString());
+                $this->assertSame($string, ClassName::of($string)->toString());
             });
     }
 
@@ -30,6 +30,6 @@ class ClassNameTest extends TestCase
     {
         $this->expectException(DomainException::class);
 
-        new ClassName('');
+        ClassName::of('');
     }
 }

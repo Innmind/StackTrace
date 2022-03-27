@@ -23,6 +23,6 @@ class ToFileTest extends TestCase
         $link = new ToFile;
         $file = Url::of('http://example.com');
 
-        $this->assertSame($file, $link($file, new Line(42)));
+        $this->assertSame($file, $link($file, Line::of(42)));
     }
 }

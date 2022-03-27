@@ -16,9 +16,9 @@ class InternalMethodCallTest extends TestCase
 {
     public function testInterface()
     {
-        $frame = new InternalMethodCall(
-            $class = new ClassName('foo'),
-            $method = new Method('bar'),
+        $frame = InternalMethodCall::of(
+            $class = ClassName::of('foo'),
+            $method = Method::of('bar'),
             'foo',
             'bar',
         );

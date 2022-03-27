@@ -19,11 +19,11 @@ class StaticMethodCallTest extends TestCase
 {
     public function testInterface()
     {
-        $frame = new StaticMethodCall(
-            $class = new ClassName('foo'),
-            $method = new Method('bar'),
+        $frame = StaticMethodCall::of(
+            $class = ClassName::of('foo'),
+            $method = Method::of('bar'),
             $file = Url::of('http://example.com'),
-            $line = new Line(42),
+            $line = Line::of(42),
             'foo',
             'bar',
         );
