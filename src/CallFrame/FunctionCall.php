@@ -22,14 +22,12 @@ final class FunctionCall implements UserLand
 
     /**
      * @no-named-arguments
-     *
-     * @param mixed $arguments
      */
     public function __construct(
         FunctionName $functionName,
         Url $file,
         Line $line,
-        ...$arguments,
+        mixed ...$arguments,
     ) {
         $this->functionName = $functionName;
         $this->file = $file;

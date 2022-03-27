@@ -24,15 +24,13 @@ final class StaticMethodCall implements UserLand
 
     /**
      * @no-named-arguments
-     *
-     * @param mixed $arguments
      */
     public function __construct(
         ClassName $class,
         Method $method,
         Url $file,
         Line $line,
-        ...$arguments,
+        mixed ...$arguments,
     ) {
         $this->class = $class;
         $this->method = $method;

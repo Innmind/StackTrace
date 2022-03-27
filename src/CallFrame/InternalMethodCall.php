@@ -22,13 +22,11 @@ final class InternalMethodCall implements CallFrame
 
     /**
      * @no-named-arguments
-     *
-     * @param mixed $arguments
      */
     public function __construct(
         ClassName $class,
         Method $method,
-        ...$arguments,
+        mixed ...$arguments,
     ) {
         $this->class = $class;
         $this->method = $method;
