@@ -6,16 +6,18 @@ namespace Tests\Innmind\StackTrace;
 use Innmind\StackTrace\{
     Render,
     StackTrace,
+    FormatPath\Truncate,
     Exception\DomainException,
 };
 use Innmind\Filesystem\File\Content;
+use Innmind\Url\Url;
 use PHPUnit\Framework\TestCase;
 
 class RenderTest extends TestCase
 {
     public function testInvokation()
     {
-        $render = Render::of();
+        $render = Render::of(null, Truncate::of(Url::of(\getcwd().'/')));
 
         try {
             $refl = new \ReflectionMethod(CallFramesTest::class, 'refl');
