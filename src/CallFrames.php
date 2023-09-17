@@ -18,7 +18,7 @@ final class CallFrames
         $frames = [];
 
         /**
-         * @var array{class?: string, type: string, file?: string, function: string, file: string, line: int, args: array} $frame
+         * @var array{class?: string, type: string, file?: string, function: string, line: int, args?: array} $frame
          */
         foreach ($throwable->getTrace() as $frame) {
             $frames[] = self::methodCall($frame) ??
@@ -36,7 +36,7 @@ final class CallFrames
     /**
      * @psalm-pure
      *
-     * @param array{class?: string, type: string, file?: string, function: string, file: string, line: int, args?: array} $frame
+     * @param array{class?: string, type: string, file?: string, function: string, line: int, args?: array} $frame
      */
     private static function methodCall(array $frame): ?CallFrame
     {
@@ -92,7 +92,7 @@ final class CallFrames
     /**
      * @psalm-pure
      *
-     * @param array{class?: string, type: string, function: string, args?: array} $frame
+     * @param array{class?: string, type: string, function: string, args?: array, file?: string, line?: int} $frame
      */
     private static function internalMethodCall(array $frame): ?CallFrame
     {
@@ -114,7 +114,7 @@ final class CallFrames
     /**
      * @psalm-pure
      *
-     * @param array{class?: string, type: string, function: string, args?: array} $frame
+     * @param array{class?: string, type: string, function: string, args?: array, file?: string, line?: int} $frame
      */
     private static function internalStaticMethodCall(array $frame): ?CallFrame
     {
@@ -136,7 +136,7 @@ final class CallFrames
     /**
      * @psalm-pure
      *
-     * @param array{file?: string, function: string, file: string, line: int, args?: array}  $frame
+     * @param array{file?: string, function: string, line: int, args?: array, class?: string, type: string}  $frame
      */
     private static function functionCall(array $frame): ?CallFrame
     {
@@ -155,7 +155,7 @@ final class CallFrames
     /**
      * @psalm-pure
      *
-     * @param array{function: string, args?: array} $frame
+     * @param array{function: string, args?: array, class?: string, type: string, file?: string, line?: int} $frame
      */
     private static function internalFunctionCall(array $frame): CallFrame
     {
