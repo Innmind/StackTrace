@@ -5,7 +5,6 @@ namespace Tests\Innmind\StackTrace;
 
 use Innmind\StackTrace\{
     Throwable,
-    CallFrame,
     ClassName,
     Line,
 };
