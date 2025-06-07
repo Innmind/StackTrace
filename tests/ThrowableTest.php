@@ -29,7 +29,7 @@ class ThrowableTest extends TestCase
         $this->assertInstanceOf(Url::class, $throwable->file());
         $this->assertSame('file://'.__FILE__, $throwable->file()->toString());
         $this->assertInstanceOf(Line::class, $throwable->line());
-        $this->assertSame(23, $throwable->line()->toInt());
+        $this->assertSame(22, $throwable->line()->toInt());
         $this->assertInstanceOf(Sequence::class, $throwable->trace());
         $this->assertCount(12, $throwable->trace());
         $this->assertSame(
