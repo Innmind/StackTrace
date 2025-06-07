@@ -287,9 +287,12 @@ final class Render
 
     /**
      * Remove special characters and escape backslashes
+     *
+     * @return non-empty-string
      */
     private function clean(string $name): string
     {
+        /** @var non-empty-string */
         return Str::of($name)
             ->replace("\x00", '') // remove the invisible character used in the name of anonymous classes
             ->replace('\\', '\\\\')

@@ -40,9 +40,11 @@ Factory::build()
                 Render::of()($trace)
             ),
     )
+    ->unwrap()
     ->wait();
 ```
 
-**Note**: the svg rendered contains links to the files where call frames and exceptions occured, you can change the link by providing an instance of [`Link`](src/Link.php) to the `Render` object.
+> [!NOTE]
+> The svg rendered contains links to the files where call frames and exceptions occured, you can change the link by providing an instance of [`Link`](src/Link.php) to the `Render` object.
 
 Example of a rendered stack trace: ![](graph.svg)
