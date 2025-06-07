@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Requires `innmind/immutable:~5.16`
+- Requires `innmind/graphviz:~4.0`
+
 ### Fixed
 
 - PHP `8.4` deprecations
