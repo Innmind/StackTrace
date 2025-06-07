@@ -13,7 +13,7 @@ use Innmind\Immutable\{
     Sequence,
     Str,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ThrowableTest extends TestCase
 {
@@ -31,7 +31,7 @@ class ThrowableTest extends TestCase
         $this->assertInstanceOf(Line::class, $throwable->line());
         $this->assertSame(22, $throwable->line()->toInt());
         $this->assertInstanceOf(Sequence::class, $throwable->trace());
-        $this->assertCount(12, $throwable->trace());
+        $this->assertCount(9, $throwable->trace());
         $this->assertSame(
             $e->getTraceAsString(),
             Str::of("\n")->join($throwable->trace()->map(
@@ -39,6 +39,6 @@ class ThrowableTest extends TestCase
             ))->toString(),
         );
         $this->assertInstanceOf(Sequence::class, $throwable->callFrames());
-        $this->assertCount(11, $throwable->callFrames());
+        $this->assertCount(8, $throwable->callFrames());
     }
 }
