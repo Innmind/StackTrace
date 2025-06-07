@@ -10,7 +10,7 @@ use Innmind\StackTrace\{
     Method,
 };
 use Innmind\Immutable\Sequence;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class InternalStaticMethodCallTest extends TestCase
 {

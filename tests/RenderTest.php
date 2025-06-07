@@ -11,7 +11,7 @@ use Innmind\StackTrace\{
 };
 use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class RenderTest extends TestCase
 {
@@ -29,7 +29,11 @@ class RenderTest extends TestCase
         $graph = $render(StackTrace::of(new DomainException('', 0, $e)));
 
         $this->assertInstanceOf(Content::class, $graph);
-        $this->assertNotEmpty($graph->toString());
+        $this
+            ->assert()
+            ->expected('')
+            ->not()
+            ->same($graph->toString());
         \file_put_contents('graph.dot', $graph->toString());
     }
 }

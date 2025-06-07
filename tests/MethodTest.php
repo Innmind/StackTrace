@@ -7,9 +7,9 @@ use Innmind\StackTrace\{
     Method,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
 use Innmind\BlackBox\{
     PHPUnit\BlackBox,
+    PHPUnit\Framework\TestCase,
     Set,
 };
 
@@ -17,11 +17,11 @@ class MethodTest extends TestCase
 {
     use BlackBox;
 
-    public function testInterface()
+    public function testInterface(): BlackBox\Proof
     {
-        $this
-            ->forAll(Set\Strings::any()->filter(static fn($string) => $string !== ''))
-            ->then(function(string $string): void {
+        return $this
+            ->forAll(Set::strings()->filter(static fn($string) => $string !== ''))
+            ->prove(function(string $string): void {
                 $this->assertSame($string, Method::of($string)->toString());
             });
     }

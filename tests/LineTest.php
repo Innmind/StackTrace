@@ -7,9 +7,9 @@ use Innmind\StackTrace\{
     Line,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
 use Innmind\BlackBox\{
     PHPUnit\BlackBox,
+    PHPUnit\Framework\TestCase,
     Set,
 };
 
@@ -17,11 +17,11 @@ class LineTest extends TestCase
 {
     use BlackBox;
 
-    public function testInterface()
+    public function testInterface(): BlackBox\Proof
     {
-        $this
-            ->forAll(Set\Integers::above(0))
-            ->then(function(int $int): void {
+        return $this
+            ->forAll(Set::integers()->above(0))
+            ->prove(function(int $int): void {
                 $this->assertSame($int, Line::of($int)->toInt());
                 $this->assertSame((string) $int, Line::of($int)->toString());
             });
@@ -34,11 +34,11 @@ class LineTest extends TestCase
         Line::of(0);
     }
 
-    public function testThrowWhenNegativeValue()
+    public function testThrowWhenNegativeValue(): BlackBox\Proof
     {
-        $this
-            ->forAll(Set\Integers::below(1))
-            ->then(function(int $int): void {
+        return $this
+            ->forAll(Set::integers()->below(1))
+            ->prove(function(int $int): void {
                 $this->expectException(DomainException::class);
 
                 Line::of($int);

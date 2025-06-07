@@ -8,7 +8,7 @@ use Innmind\StackTrace\{
     CallFrame,
 };
 use Innmind\Immutable\Sequence;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class CallFramesTest extends TestCase
 {
@@ -22,7 +22,7 @@ class CallFramesTest extends TestCase
         }
 
         $this->assertInstanceOf(Sequence::class, $frames);
-        $this->assertCount(18, $frames);
+        $this->assertCount(15, $frames);
         $this->assertInstanceOf(CallFrame\MethodCall::class, $frames->get(0)->match(
             static fn($frame) => $frame,
             static fn() => null,

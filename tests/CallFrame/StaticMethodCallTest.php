@@ -13,7 +13,7 @@ use Innmind\StackTrace\{
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\Sequence;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class StaticMethodCallTest extends TestCase
 {
