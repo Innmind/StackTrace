@@ -55,11 +55,13 @@ final class InternalStaticMethodCall implements CallFrame
         return $this->method;
     }
 
+    #[\Override]
     public function arguments(): Sequence
     {
         return $this->arguments;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return "{$this->class->toString()}::{$this->method->toString()}()";

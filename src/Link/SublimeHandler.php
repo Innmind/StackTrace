@@ -21,6 +21,7 @@ use Innmind\Url\{
  */
 final class SublimeHandler implements Link
 {
+    #[\Override]
     public function __invoke(Url $file, Line $line): Url
     {
         return $file->withScheme(Scheme::of('sublime'));

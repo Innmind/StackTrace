@@ -14,6 +14,7 @@ use Innmind\Url\Url;
  */
 final class FullPath implements FormatPath
 {
+    #[\Override]
     public function __invoke(Url $url, Line $line): string
     {
         return "{$url->path()->toString()}:{$line->toString()}";
