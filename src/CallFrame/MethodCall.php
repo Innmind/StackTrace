@@ -63,21 +63,25 @@ final class MethodCall implements UserLand
         return $this->method;
     }
 
+    #[\Override]
     public function file(): Url
     {
         return $this->file;
     }
 
+    #[\Override]
     public function line(): Line
     {
         return $this->line;
     }
 
+    #[\Override]
     public function arguments(): Sequence
     {
         return $this->arguments;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return "{$this->class->toString()}->{$this->method->toString()}()";
