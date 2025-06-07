@@ -41,11 +41,13 @@ final class InternalFunctionCall implements CallFrame
         return $this->functionName;
     }
 
+    #[\Override]
     public function arguments(): Sequence
     {
         return $this->arguments;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return "{$this->functionName->toString()}()";

@@ -22,6 +22,7 @@ final class Truncate implements FormatPath
         $this->workingDirectory = $workingDirectory;
     }
 
+    #[\Override]
     public function __invoke(Url $url, Line $line): string
     {
         $workingDirectory = Str::of($this->workingDirectory->path()->toString());
