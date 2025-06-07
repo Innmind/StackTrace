@@ -27,7 +27,7 @@ final class Render
     private Link $link;
     private FormatPath $formatPath;
 
-    private function __construct(Link $link = null, FormatPath $formatPath = null)
+    private function __construct(?Link $link = null, ?FormatPath $formatPath = null)
     {
         $this->link = $link ?? new Link\ToFile;
         $this->formatPath = $formatPath ?? new FormatPath\FullPath;
@@ -63,7 +63,7 @@ final class Render
     /**
      * @psalm-pure
      */
-    public static function of(Link $link = null, FormatPath $formatPath = null): self
+    public static function of(?Link $link = null, ?FormatPath $formatPath = null): self
     {
         return new self($link, $formatPath);
     }
