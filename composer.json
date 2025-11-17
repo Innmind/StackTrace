@@ -15,7 +15,7 @@
         "issues": "http://github.com/Innmind/StackTrace/issues"
     },
     "require": {
-        "php": "~8.2",
+        "php": "~8.4",
         "innmind/immutable": "~5.16",
         "innmind/url": "~4.4",
         "innmind/graphviz": "~4.0"
