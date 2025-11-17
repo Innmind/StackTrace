@@ -22,7 +22,7 @@ class CallFramesTest extends TestCase
         }
 
         $this->assertInstanceOf(Sequence::class, $frames);
-        $this->assertCount(15, $frames);
+        $this->assertSame(15, $frames->size());
         $this->assertInstanceOf(CallFrame\MethodCall::class, $frames->get(0)->match(
             static fn($frame) => $frame,
             static fn() => null,

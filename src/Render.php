@@ -312,7 +312,7 @@ final class Render
             $prefix = "{$frame->file()->path()->toString()}|{$frame->line()->toString()}|";
         }
 
-        return "$prefix{$frame->toString()}|{$frame->arguments()->count()}";
+        return "$prefix{$frame->toString()}|{$frame->arguments()->size()}";
     }
 
     private function node(CallFrame|Throwable $reference): Node
