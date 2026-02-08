@@ -38,31 +38,37 @@ final class Throwable
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(\Throwable $e): self
     {
         return new self($e);
     }
 
+    #[\NoDiscard]
     public function class(): ClassName
     {
         return $this->class;
     }
 
+    #[\NoDiscard]
     public function code(): int
     {
         return $this->code;
     }
 
+    #[\NoDiscard]
     public function message(): Str
     {
         return $this->message;
     }
 
+    #[\NoDiscard]
     public function file(): Url
     {
         return $this->file;
     }
 
+    #[\NoDiscard]
     public function line(): Line
     {
         return $this->line;
@@ -71,6 +77,7 @@ final class Throwable
     /**
      * @return Sequence<Str>
      */
+    #[\NoDiscard]
     public function trace(): Sequence
     {
         return $this->trace;
@@ -79,6 +86,7 @@ final class Throwable
     /**
      * @return Sequence<CallFrame>
      */
+    #[\NoDiscard]
     public function callFrames(): Sequence
     {
         return $this->frames;

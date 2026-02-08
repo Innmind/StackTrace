@@ -10,5 +10,6 @@ use Innmind\Url\Url;
  */
 interface Link
 {
+    #[\NoDiscard]
     public function __invoke(Url $file, Line $line): Url;
 }

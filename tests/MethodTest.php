@@ -30,6 +30,6 @@ class MethodTest extends TestCase
     {
         $this->expectException(DomainException::class);
 
-        Method::of('');
+        $_ = Method::of('');
     }
 }

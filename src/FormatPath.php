@@ -13,5 +13,6 @@ interface FormatPath
     /**
      * @return non-empty-string
      */
+    #[\NoDiscard]
     public function __invoke(Url $url, Line $line): string;
 }

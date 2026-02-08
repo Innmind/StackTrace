@@ -31,23 +31,27 @@ final class InternalFunctionCall implements CallFrame
      * @no-named-arguments
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(FunctionName $functionName, mixed ...$arguments): self
     {
         return new self($functionName, ...$arguments);
     }
 
+    #[\NoDiscard]
     public function functionName(): FunctionName
     {
         return $this->functionName;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function arguments(): Sequence
     {
         return $this->arguments;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function toString(): string
     {
         return "{$this->functionName->toString()}()";
