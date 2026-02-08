@@ -13,6 +13,9 @@ interface CallFrame
     /**
      * @return Sequence<mixed>
      */
+    #[\NoDiscard]
     public function arguments(): Sequence;
+
+    #[\NoDiscard]
     public function toString(): string;
 }

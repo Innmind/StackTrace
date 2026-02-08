@@ -24,16 +24,19 @@ final class Line
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(int $value): self
     {
         return new self($value);
     }
 
+    #[\NoDiscard]
     public function toInt(): int
     {
         return $this->value;
     }
 
+    #[\NoDiscard]
     public function toString(): string
     {
         return (string) $this->value;

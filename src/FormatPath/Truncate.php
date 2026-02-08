@@ -37,6 +37,7 @@ final class Truncate implements FormatPath
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(Url $workingDirectory): self
     {
         return new self($workingDirectory);
