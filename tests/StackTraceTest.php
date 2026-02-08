@@ -31,7 +31,7 @@ class StackTraceTest extends TestCase
 
         $this->assertEquals(Throwable::of($foo), $stack->throwable());
         $this->assertInstanceOf(Sequence::class, $stack->previous());
-        $this->assertCount(2, $stack->previous());
+        $this->assertSame(2, $stack->previous()->size());
         $this->assertEquals(
             [Throwable::of($bar), Throwable::of($baz)],
             $stack->previous()->toList(),
