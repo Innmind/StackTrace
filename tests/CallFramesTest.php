@@ -67,7 +67,9 @@ class CallFramesTest extends TestCase
         if (!\function_exists('\Tests\Innmind\StackTrace\foo')) {
             function foo(callable $x)
             {
-                (static function($x) {$x(); })($x);
+                (static function($x) {
+                    $x();
+                })($x);
             }
         }
 
