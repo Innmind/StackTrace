@@ -37,6 +37,7 @@ final class InternalMethodCall implements CallFrame
      * @no-named-arguments
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(
         ClassName $class,
         Method $method,
@@ -45,23 +46,27 @@ final class InternalMethodCall implements CallFrame
         return new self($class, $method, ...$arguments);
     }
 
+    #[\NoDiscard]
     public function class(): ClassName
     {
         return $this->class;
     }
 
+    #[\NoDiscard]
     public function method(): Method
     {
         return $this->method;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function arguments(): Sequence
     {
         return $this->arguments;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function toString(): string
     {
         return "{$this->class->toString()}->{$this->method->toString()}()";

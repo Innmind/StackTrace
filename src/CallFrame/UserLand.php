@@ -14,6 +14,9 @@ use Innmind\Url\Url;
  */
 interface UserLand extends CallFrame
 {
+    #[\NoDiscard]
     public function file(): Url;
+
+    #[\NoDiscard]
     public function line(): Line;
 }

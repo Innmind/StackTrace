@@ -31,7 +31,7 @@ class ThrowableTest extends TestCase
         $this->assertInstanceOf(Line::class, $throwable->line());
         $this->assertSame(22, $throwable->line()->toInt());
         $this->assertInstanceOf(Sequence::class, $throwable->trace());
-        $this->assertCount(9, $throwable->trace());
+        $this->assertSame(9, $throwable->trace()->size());
         $this->assertSame(
             $e->getTraceAsString(),
             Str::of("\n")->join($throwable->trace()->map(
@@ -39,6 +39,6 @@ class ThrowableTest extends TestCase
             ))->toString(),
         );
         $this->assertInstanceOf(Sequence::class, $throwable->callFrames());
-        $this->assertCount(8, $throwable->callFrames());
+        $this->assertSame(8, $throwable->callFrames()->size());
     }
 }

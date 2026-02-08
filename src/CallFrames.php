@@ -13,6 +13,7 @@ final class CallFrames
      *
      * @return Sequence<CallFrame>
      */
+    #[\NoDiscard]
     public static function of(\Throwable $throwable): Sequence
     {
         $frames = [];

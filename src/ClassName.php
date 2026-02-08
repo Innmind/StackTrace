@@ -25,11 +25,13 @@ final class ClassName
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(string $value): self
     {
         return new self($value);
     }
 
+    #[\NoDiscard]
     public function toString(): string
     {
         return $this->value;

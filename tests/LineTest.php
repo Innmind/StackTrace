@@ -31,7 +31,7 @@ class LineTest extends TestCase
     {
         $this->expectException(DomainException::class);
 
-        Line::of(0);
+        $_ = Line::of(0);
     }
 
     public function testThrowWhenNegativeValue(): BlackBox\Proof
@@ -41,7 +41,7 @@ class LineTest extends TestCase
             ->prove(function(int $int): void {
                 $this->expectException(DomainException::class);
 
-                Line::of($int);
+                $_ = Line::of($int);
             });
     }
 }

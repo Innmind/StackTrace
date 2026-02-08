@@ -39,6 +39,7 @@ final class FunctionCall implements UserLand
      * @no-named-arguments
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(
         FunctionName $functionName,
         Url $file,
@@ -48,30 +49,35 @@ final class FunctionCall implements UserLand
         return new self($functionName, $file, $line, ...$arguments);
     }
 
+    #[\NoDiscard]
     public function functionName(): FunctionName
     {
         return $this->functionName;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function file(): Url
     {
         return $this->file;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function line(): Line
     {
         return $this->line;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function arguments(): Sequence
     {
         return $this->arguments;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function toString(): string
     {
         return "{$this->functionName->toString()}()";

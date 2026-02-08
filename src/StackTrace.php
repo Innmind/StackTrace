@@ -29,11 +29,13 @@ final class StackTrace
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(\Throwable $e): self
     {
         return new self($e);
     }
 
+    #[\NoDiscard]
     public function throwable(): Throwable
     {
         return $this->throwable;
@@ -42,6 +44,7 @@ final class StackTrace
     /**
      * @return Sequence<Throwable>
      */
+    #[\NoDiscard]
     public function previous(): Sequence
     {
         return $this->previous;

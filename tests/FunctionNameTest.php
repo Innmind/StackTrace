@@ -30,6 +30,6 @@ class FunctionNameTest extends TestCase
     {
         $this->expectException(DomainException::class);
 
-        FunctionName::of('');
+        $_ = FunctionName::of('');
     }
 }

@@ -33,6 +33,7 @@ final class Render
         $this->formatPath = $formatPath ?? new FormatPath\FullPath;
     }
 
+    #[\NoDiscard]
     public function __invoke(StackTrace $stack): Content
     {
         $thrown = $this->thrown(
@@ -63,6 +64,7 @@ final class Render
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(?Link $link = null, ?FormatPath $formatPath = null): self
     {
         return new self($link, $formatPath);
@@ -312,7 +314,7 @@ final class Render
             $prefix = "{$frame->file()->path()->toString()}|{$frame->line()->toString()}|";
         }
 
-        return "$prefix{$frame->toString()}|{$frame->arguments()->count()}";
+        return "$prefix{$frame->toString()}|{$frame->arguments()->size()}";
     }
 
     private function node(CallFrame|Throwable $reference): Node
