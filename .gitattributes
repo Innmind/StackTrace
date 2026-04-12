@@ -1,4 +1,10 @@
+/.github export-ignore
 /.gitattributes export-ignore
 /.gitignore export-ignore
-/phpunit.xml.dist export-ignore
 /tests export-ignore
+/codecov.yml export-ignore
+/.php-cs-fixer.dist.php export-ignore
+/psalm.xml export-ignore
+/graph.dot export-ignore
+/graph.svg export-ignore
+/render.php export-ignore
