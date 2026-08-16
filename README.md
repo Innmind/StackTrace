@@ -1,6 +1,6 @@
 # StackTrace
 
-[![Build Status](https://github.com/innmind/stacktrace/workflows/CI/badge.svg?branch=master)](https://github.com/innmind/stacktrace/actions?query=workflow%3ACI)
+[![CI](https://github.com/Innmind/StackTrace/actions/workflows/ci.yml/badge.svg)](https://github.com/Innmind/StackTrace/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/innmind/stacktrace/branch/develop/graph/badge.svg)](https://codecov.io/gh/innmind/stacktrace)
 [![Type Coverage](https://shepherd.dev/github/innmind/stacktrace/coverage.svg)](https://shepherd.dev/github/innmind/stacktrace)
 
