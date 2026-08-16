@@ -2,7 +2,11 @@
     "name": "innmind/stack-trace",
     "type": "library",
     "description": "Tool to inspect exception stack trace",
-    "keywords": ["inspect", "exception", "stack trace"],
+    "keywords": [
+        "inspect",
+        "exception",
+        "stack trace"
+    ],
     "homepage": "http://github.com/Innmind/StackTrace",
     "license": "MIT",
     "authors": [
